@@ -15,6 +15,7 @@ namespace SportClub.Model
         private DayOfWeek _dayOfWeek;
         private DateTime _startHour;
         private DateTime _endHour;
+        private IList<Schedule> _schedules;
 
         public int WorkShiftId
         {
@@ -60,6 +61,17 @@ namespace SportClub.Model
             }
         }
 
+        public virtual IList<Schedule> Schedules
+        {
+            get => _schedules;
+            set
+            {
+                if (value.Equals(_schedules)) return;
+                _schedules = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -67,6 +79,11 @@ namespace SportClub.Model
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public WorkShift()
+        {
+            _schedules = new List<Schedule>();
         }
     }
 }

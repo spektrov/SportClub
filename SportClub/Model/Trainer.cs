@@ -25,6 +25,7 @@ namespace SportClub.Model
         private decimal? _salary;
 
         private IList<PersonalTraining> _personalTrainings;
+        private IList<Schedule> _schedules;
 
         public int TrainerId
         {
@@ -168,6 +169,16 @@ namespace SportClub.Model
             }
         }
 
+        public virtual IList<Schedule> Schedules
+        {
+            get => _schedules;
+            set
+            {
+                if (value.Equals(_schedules)) return;
+                _schedules = value;
+                OnPropertyChanged();
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -180,6 +191,7 @@ namespace SportClub.Model
         public Trainer()
         {
             _personalTrainings = new List<PersonalTraining>();
+            _schedules = new List<Schedule>();
         }
     }
 }

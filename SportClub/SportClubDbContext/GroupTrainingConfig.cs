@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SportClub.Model
+namespace SportClub.SportClubDbContext
 {
-    class GroupTraining
+    class GroupTrainingConfig
     {
     }
 }

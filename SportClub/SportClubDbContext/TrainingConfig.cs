@@ -13,7 +13,7 @@ namespace SportClub.SportClubDbContext
         public TrainingConfig()
         {
             HasKey(training => training.TrainingId);
-            HasRequired(training => training.Client).WithMany(client => client.Trainings).WillCascadeOnDelete(true);
+            HasRequired(training => training.Client).WithMany(client => client.Trainings).HasForeignKey(t => t.ClientId).WillCascadeOnDelete(true);
             Property(training => training.TrainingDate).HasColumnType("datetime2").IsRequired();
 
             ToTable("Trainings");
