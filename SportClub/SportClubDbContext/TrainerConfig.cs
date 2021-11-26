@@ -19,7 +19,7 @@ namespace SportClub.SportClubDbContext
             Property(trainer => trainer.Gender).IsRequired().HasMaxLength(20);
             Property(trainer => trainer.PhoneNumber).HasMaxLength(15).IsOptional();
             Property(trainer => trainer.Email).HasMaxLength(30).IsOptional();
-            Property(trainer => trainer.ApplyDate).IsRequired();
+            Property(trainer => trainer.ApplyDate).HasColumnType("datetime2").IsRequired();
             Property(trainer => trainer.Education).IsOptional();
             Property(trainer => trainer.SportAchivements).IsOptional();
             Property(trainer => trainer.Experience).IsOptional();
