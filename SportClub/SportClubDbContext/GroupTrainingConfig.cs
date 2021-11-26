@@ -18,6 +18,8 @@ namespace SportClub.SportClubDbContext
             HasRequired(training => training.GroupTrainingType).WithMany(trainer => trainer.GroupTrainings).HasForeignKey(t => t.GroupTrainingTypeId);
             Property(training => training.Date).HasColumnType("datetime2").IsRequired();
             Property(training => training.StartTime).HasColumnType("datetime2").IsRequired();
+
+            ToTable("GroupTraining");
         }
     }
 }
