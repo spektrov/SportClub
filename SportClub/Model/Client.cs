@@ -21,6 +21,8 @@ namespace SportClub.Model
         private string _email;
         private DateTime _registrationDate;
 
+        private Subscription _subscription = null;
+
         public int ClientId
         {
             get => _clientId;
@@ -105,6 +107,17 @@ namespace SportClub.Model
             {
                 if (value.Equals(_registrationDate)) return;
                 _registrationDate = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Subscription Subscription
+        {
+            get => _subscription;
+            set
+            {
+                if (value.Equals(_subscription)) return;
+                _subscription = value;
                 OnPropertyChanged();
             }
         }

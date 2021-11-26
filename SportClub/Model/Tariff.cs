@@ -18,6 +18,8 @@ namespace SportClub.Model
         private int _groupTraining;
         private string _additionalInformation;
 
+        private IList<Subscription> _subscriptions;
+
         public int TariffId
         {
             get => _tariffId;
@@ -84,6 +86,17 @@ namespace SportClub.Model
             }
         }
 
+        public virtual IList<Subscription> Subscriptions
+        {
+            get => _subscriptions;
+            set
+            {
+                if (Equals(value, _subscriptions)) return;
+                _subscriptions = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -91,6 +104,11 @@ namespace SportClub.Model
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public Tariff()
+        {
+            _subscriptions = new List<Subscription>();
         }
     }
 }
