@@ -16,6 +16,8 @@ namespace SportClub.SportClubDbContext
             HasKey(schedule => new { schedule.TrainerId, schedule.WorkShiftId });
             HasRequired(schedule => schedule.Trainer).WithMany(trainer => trainer.Schedules).HasForeignKey(s => s.TrainerId);
             HasRequired(schedule => schedule.WorkShift).WithMany(shift => shift.Schedules).HasForeignKey(s => s.WorkShiftId);
+
+            ToTable("Schedule");
         }
     }
 }

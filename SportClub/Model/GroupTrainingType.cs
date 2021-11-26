@@ -14,6 +14,8 @@ namespace SportClub.Model
         private int _groupTrainingTypeId;
         private string _groupTrainingTypeName;
 
+        private IList<GroupTraining> _groupTrainings;
+
         public int GroupTrainingTypeId
         {
             get => _groupTrainingTypeId;
@@ -36,12 +38,28 @@ namespace SportClub.Model
             }
         }
 
+        public virtual IList<GroupTraining> GroupTrainings
+        {
+            get => _groupTrainings;
+            set
+            {
+                if (value.Equals(_groupTrainings)) return;
+                _groupTrainings = value;
+                OnPropertyChanged();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public GroupTrainingType()
+        {
+            _groupTrainings = new List<GroupTraining>();
         }
     }
 }
