@@ -22,6 +22,9 @@ namespace SportClub.Model
         private DateTime _registrationDate;
 
         private Subscription _subscription = null;
+        private IList<Training> _trainings;
+        private IList<PersonalTraining> _personalTrainings;
+        private IList<TrainingInGroup> _trainingInGroups;
 
         public int ClientId
         {
@@ -122,12 +125,52 @@ namespace SportClub.Model
             }
         }
 
+        public virtual IList<Training> Trainings
+        {
+            get => _trainings;
+            set
+            {
+                if (Equals(value, _trainings)) return;
+                _trainings = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public virtual IList<PersonalTraining> PersonalTrainings
+        {
+            get => _personalTrainings;
+            set
+            {
+                if (Equals(value, _personalTrainings)) return;
+                _personalTrainings = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public virtual IList<TrainingInGroup> TrainingInGroups
+        {
+            get => _trainingInGroups;
+            set
+            {
+                if (Equals(value, _trainingInGroups)) return;
+                _trainingInGroups = value;
+                OnPropertyChanged();
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public Client()
+        {
+            _trainings = new List<Training>();
+            _personalTrainings = new List<PersonalTraining>();
+            _trainingInGroups = new List<TrainingInGroup>();
         }
     }
 }

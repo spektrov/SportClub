@@ -83,17 +83,21 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Schedule.cs" />
+    <Compile Include="Model\TrainingInGroup.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="SportClubDbContext\ClientConfig.cs" />
     <Compile Include="SportClubDbContext\GroupTrainingConfig.cs" />
     <Compile Include="SportClubDbContext\GroupTrainingTypeConfig.cs" />
     <Compile Include="SportClubDbContext\PersonalTrainingConfig.cs" />
     <Compile Include="SportClubDbContext\RoomConfig.cs" />
+    <Compile Include="SportClubDbContext\ScheduleConfig.cs" />
     <Compile Include="SportClubDbContext\SportClubConfig.cs" />
     <Compile Include="SportClubDbContext\SubscriptionConfig.cs" />
     <Compile Include="SportClubDbContext\TariffConfig.cs" />
     <Compile Include="SportClubDbContext\TrainerConfig.cs" />
     <Compile Include="SportClubDbContext\TrainingConfig.cs" />
+    <Compile Include="SportClubDbContext\TrainingInGroupConfig.cs" />
     <Compile Include="SportClubDbContext\WorkShiftConfig.cs" />
     <Page Include="View\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

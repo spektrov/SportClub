@@ -24,6 +24,8 @@ namespace SportClub.Model
         private int? _experience;
         private decimal? _salary;
 
+        private IList<PersonalTraining> _personalTrainings;
+
         public int TrainerId
         {
             get => _trainerId;
@@ -155,6 +157,17 @@ namespace SportClub.Model
                 OnPropertyChanged();
             }
         }
+        public virtual IList<PersonalTraining> PersonalTrainings
+        {
+            get => _personalTrainings;
+            set
+            {
+                if (Equals(value, _personalTrainings)) return;
+                _personalTrainings = value;
+                OnPropertyChanged();
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -162,6 +175,11 @@ namespace SportClub.Model
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public Trainer()
+        {
+            _personalTrainings = new List<PersonalTraining>();
         }
     }
 }
