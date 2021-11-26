@@ -3,10 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Entity.ModelConfiguration;
+using SportClub.Model;
 
-namespace SportClub.Model
+namespace SportClub.SportClubDbContext
 {
-    class Training
+    class TrainingConfig : EntityTypeConfiguration<Training>
     {
+        public TrainingConfig()
+        {
+            HasKey(training => training.TrainingId);
+            HasRequired(training => training.Client).WithMany(client => client.Trainings).WillCascadeOnDelete(true);
+            Property(training => training.TrainingDate).HasColumnType("datetime2").IsRequired();
+
+            ToTable("Trainings");
+        }
     }
 }
