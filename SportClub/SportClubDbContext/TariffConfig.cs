@@ -18,6 +18,8 @@ namespace SportClub.SportClubDbContext
             Property(tariff => tariff.PersonalTraining).IsRequired();
             Property(tariff => tariff.GroupTraining).IsRequired();
             Property(tariff => tariff.AdditionalInformation).IsOptional();
+
+            ToTable("Tariffs");
         }
     }
 }

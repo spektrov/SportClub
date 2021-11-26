@@ -14,6 +14,8 @@ namespace SportClub.SportClubDbContext
         {
             HasKey(room => room.RoomId);
             Property(room => room.RoomName).IsRequired().HasMaxLength(50);
+
+            ToTable("Rooms");
         }
     }
 }
