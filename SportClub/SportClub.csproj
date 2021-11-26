@@ -92,7 +92,7 @@
     <Compile Include="SportClubDbContext\PersonalTrainingConfig.cs" />
     <Compile Include="SportClubDbContext\RoomConfig.cs" />
     <Compile Include="SportClubDbContext\ScheduleConfig.cs" />
-    <Compile Include="SportClubDbContext\SportClubConfig.cs" />
+    <Compile Include="SportClubDbContext\SportClubContext.cs" />
     <Compile Include="SportClubDbContext\SubscriptionConfig.cs" />
     <Compile Include="SportClubDbContext\TariffConfig.cs" />
     <Compile Include="SportClubDbContext\TrainerConfig.cs" />
