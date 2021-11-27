@@ -19,7 +19,7 @@
     </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -91,7 +91,16 @@
     <Compile Include="Migrations\202111271544100_Reseed.designer.cs">
       <DependentUpon>202111271544100_Reseed.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202111272022563_Gender.cs" />
+    <Compile Include="Migrations\202111272022563_Gender.designer.cs">
+      <DependentUpon>202111272022563_Gender.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202111272057091_Gender1.cs" />
+    <Compile Include="Migrations\202111272057091_Gender1.designer.cs">
+      <DependentUpon>202111272057091_Gender1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Miscellaneous\XamlConverters.cs" />
     <Compile Include="Model\Schedule.cs" />
     <Compile Include="Model\TrainingInGroup.cs" />
     <Compile Include="Properties\Annotations.cs" />
@@ -108,17 +117,13 @@
     <Compile Include="SportClubDbContext\TrainingConfig.cs" />
     <Compile Include="SportClubDbContext\TrainingInGroupConfig.cs" />
     <Compile Include="SportClubDbContext\WorkShiftConfig.cs" />
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Compile Include="ViewModel\ClientsTabViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
+    <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +156,12 @@
     <EmbeddedResource Include="Migrations\202111271544100_Reseed.resx">
       <DependentUpon>202111271544100_Reseed.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111272022563_Gender.resx">
+      <DependentUpon>202111272022563_Gender.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202111272057091_Gender1.resx">
+      <DependentUpon>202111272057091_Gender1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -164,10 +175,12 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="Miscellaneous\" />
-    <Folder Include="ViewModel\" />
-    <Folder Include="View\" />
+    <Page Include="View\MainWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

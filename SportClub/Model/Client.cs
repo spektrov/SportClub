@@ -114,7 +114,7 @@ namespace SportClub.Model
             }
         }
 
-        public IList<Subscription> Subscriptions
+        public virtual IList<Subscription> Subscriptions
         {
             get => _subscriptions;
             set
