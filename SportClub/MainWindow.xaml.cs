@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SportClub.Model;
+using SportClub.SportClubDbContext;
+using System.Data.Entity;
 
 namespace SportClub
 {
@@ -20,9 +23,17 @@ namespace SportClub
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        private SportClubContext Context { get; }
+
         public MainWindow()
         {
             InitializeComponent();
+
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SportClubContext>());
+            Context = new SportClubContext();
         }
+
+   
     }
 }
