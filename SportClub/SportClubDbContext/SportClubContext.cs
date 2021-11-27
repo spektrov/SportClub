@@ -10,11 +10,13 @@ namespace SportClub.SportClubDbContext
 {
     class SportClubContext : DbContext
     {
-        public SportClubContext(string connectionString = "SportClubDbConnectionString")
-            : base(connectionString)
+
+        public SportClubContext()
+            : base("SportClubDbConnectionString")
         {
 
         }
+        
 
         public DbSet<Client> Clients { get; set; }
         public DbSet<GroupTraining> GroupTrainings { get; set; }

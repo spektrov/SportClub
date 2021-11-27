@@ -14,7 +14,7 @@ namespace SportClub.SportClubDbContext
         public SubscriptionConfig()
         {
             HasKey(subscr => new { subscr.ClientId, subscr.TariffId });
-            HasRequired(subscription => subscription.Client).WithRequiredPrincipal(client => client.Subscription);
+            HasRequired(subscription => subscription.Client).WithMany(client => client.Subscriptions).HasForeignKey(s => s.ClientId).WillCascadeOnDelete(true);
             HasRequired(subscription => subscription.Tariff).WithMany(tariff => tariff.Subscriptions).HasForeignKey(s => s.TariffId).WillCascadeOnDelete(true);
             Property(subscription => subscription.VisitLeft).IsRequired();
             Property(subscription => subscription.PersonalTrainingLeft).IsRequired();

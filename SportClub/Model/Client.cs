@@ -21,7 +21,7 @@ namespace SportClub.Model
         private string _email;
         private DateTime _registrationDate;
 
-        private Subscription _subscription = null;
+        private IList<Subscription> _subscriptions;
         private IList<Training> _trainings;
         private IList<PersonalTraining> _personalTrainings;
         private IList<TrainingInGroup> _trainingInGroups;
@@ -114,13 +114,13 @@ namespace SportClub.Model
             }
         }
 
-        public Subscription Subscription
+        public IList<Subscription> Subscriptions
         {
-            get => _subscription;
+            get => _subscriptions;
             set
             {
-                if (value.Equals(_subscription)) return;
-                _subscription = value;
+                if (value.Equals(_subscriptions)) return;
+                _subscriptions = value;
                 OnPropertyChanged();
             }
         }
@@ -171,6 +171,7 @@ namespace SportClub.Model
             _trainings = new List<Training>();
             _personalTrainings = new List<PersonalTraining>();
             _trainingInGroups = new List<TrainingInGroup>();
+            _subscriptions = new List<Subscription>();
         }
     }
 }

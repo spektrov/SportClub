@@ -16,6 +16,7 @@ namespace SportClub.Model
         private int _visitNumber;
         private int _personalTraining;
         private int _groupTraining;
+        private int _duration;
         private string _additionalInformation;
 
         private IList<Subscription> _subscriptions;
@@ -71,6 +72,17 @@ namespace SportClub.Model
             {
                 if (value == _groupTraining) return;
                 _groupTraining = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int Duration
+        {
+            get => _duration;
+            set
+            {
+                if (value == _duration) return;
+                _duration = value;
                 OnPropertyChanged();
             }
         }
