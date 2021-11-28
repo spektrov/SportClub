@@ -82,6 +82,7 @@
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding ClientsGridSelectionChangedCommand}"/>
+                                <i:InvokeCommandAction Command="{Binding TrainingSelectChangedCommand}"/>
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </DataGrid>
@@ -155,6 +156,7 @@
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -191,12 +193,9 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </DatePicker>
-                                    <ComboBox x:Name="GDpFilter" Grid.Row="3" Grid.Column="1" Margin="3" SelectedIndex="{Binding ClientFilter.Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                        <ComboBox.Items>
-                                            <TextBlock Text="Мужской"/>
-                                            <TextBlock Text="Женский"/>
-                                            <TextBlock Text="Другой"/>
-                                        </ComboBox.Items>
+                                    <ComboBox x:Name="GDpFilter" Grid.Row="3" Grid.Column="1" Margin="3" 
+                                              SelectedValue="{Binding ClientFilter.Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                ItemsSource="{Binding GenderTypes, Mode=OneTime}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="SelectionChanged">
                                                 <i:InvokeCommandAction Command="{Binding ClientsFilterChangedCommand}"/>
@@ -230,7 +229,7 @@
                                             </MultiBinding>
                                         </Button.CommandParameter>
                                     </Button>
-                                    <DataGrid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding FilteredClientList}">
+                                    <DataGrid Grid.Row="8" Grid.Column="0"  Grid.ColumnSpan="2" ItemsSource="{Binding FilteredClientList}">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="№" Binding="{Binding ClientId}"/>
                                             <DataGridTextColumn Header="Фамилия" Binding="{Binding FirstName}"/>
@@ -243,6 +242,13 @@
                                         </DataGrid.Columns>
                                     </DataGrid>
 
+                                    <DataGrid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding TrainingsList}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="№" Binding="{Binding TrainingId}"/>
+                                            <DataGridTextColumn Header="Клиент" Binding="{Binding ClientId}"/>
+                                            <DataGridTextColumn Header="Дата" Binding="{Binding TrainingDate}"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
                                 </Grid>
                             </Expander>
                         </Grid>

@@ -15,6 +15,7 @@ namespace SportClub.ViewModel
     class ClientsTabViewModel : ViewModelBase
     {
         private IList<Client> _filteredClientList;
+        private IList<Training> _trainingsList;
 
         private static readonly List<string> _genderTypes = new List<string> {
             "Мужской",
@@ -41,10 +42,21 @@ namespace SportClub.ViewModel
             }
         }
 
+        public IList<Training> TrainingsList
+        {
+            get => _trainingsList;
+            set
+            {
+                _trainingsList = value;
+                RaisePropertyChanged();
+            }
+        }
+
         public ClientsTabViewModel(SportClubContext context)
         {
             Context = context;
             Context.Clients.Load();
+            Context.Trainings.Load();
         }
 
         private RelayCommand _addClientCommand;
@@ -53,6 +65,7 @@ namespace SportClub.ViewModel
         private RelayCommand<object> _resetFilterClientCommand;
         private RelayCommand _clientsGridSelectionChangedCommand;
         private RelayCommand _clientsFilterChangedCommand;
+        private RelayCommand _trainingsSelectCommand;
 
         public ICommand AddClientCommand =>
             _addClientCommand ??
@@ -186,23 +199,19 @@ namespace SportClub.ViewModel
                     IEnumerable<Client> queryResult = Context.Clients.Local;
                     if (!string.IsNullOrEmpty(ClientFilter.FirstName))
                     {
-                        queryResult = queryResult.Where(client => client.FirstName.Contains(ClientFilter.FirstName));
+                        queryResult = queryResult.Where(client => client.FirstName.ToLower().Contains(ClientFilter.FirstName.ToLower()));
                     }
                     if (!string.IsNullOrEmpty(ClientFilter.LastName))
                     {
-                        queryResult = queryResult.Where(client => client.LastName.Contains(ClientFilter.LastName));
+                        queryResult = queryResult.Where(client => client.LastName.ToLower().Contains(ClientFilter.LastName.ToLower()));
                     }
                     if (ClientFilter.BirthDate != null)
                     {
-                        queryResult = queryResult.Where(client => client.BirthDate != null && client.BirthDate == (ClientFilter.BirthDate));
+                        queryResult = queryResult.Where(client => client.BirthDate != null && client.BirthDate == ClientFilter.BirthDate);
                     }
                     if (!string.IsNullOrEmpty(ClientFilter.Gender) && ClientFilter.Gender != "-1")
                     {
-                        var gender = ""; 
-                        if (ClientFilter.Gender == "0") gender = "Мужской";
-                        else if (ClientFilter.Gender == "1") gender = "Женский";
-                        else if (ClientFilter.Gender == "2") gender = "Другой";
-                        queryResult = queryResult.Where(client => client.Gender == gender);
+                        queryResult = queryResult.Where(client => client.Gender.Equals(ClientFilter.Gender));
                     }
                     if (!string.IsNullOrEmpty(ClientFilter.PhoneNumber))
                     {
@@ -219,6 +228,13 @@ namespace SportClub.ViewModel
                     FilteredClientList = queryResult?.ToList();
                 }));
 
-
+        public ICommand TrainingSelectChangedCommand =>
+            _trainingsSelectCommand ?? (_trainingsSelectCommand =
+            new RelayCommand( () =>
+            {
+                IEnumerable<Training> trainings = Context.Trainings.Local;
+                trainings = trainings.Where(training => training.ClientId.Equals(SelectedClient.ClientId));
+                TrainingsList = trainings?.ToList();
+            }));
     }
 }
