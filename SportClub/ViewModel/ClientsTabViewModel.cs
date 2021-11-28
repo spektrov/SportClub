@@ -16,10 +16,19 @@ namespace SportClub.ViewModel
     {
         private IList<Client> _filteredClientList;
 
+        private static readonly List<string> _genderTypes = new List<string> {
+            "Мужской",
+            "Женский",
+            "Другой",
+        };
+
         public SportClubContext Context { get; }
         public Client ClientInfo { get; set; } = new Client();
         public Client ClientFilter { get; set; } = new Client();
         public Client SelectedClient { get; set; }
+
+        public List<string> GenderTypes { get => _genderTypes; }
+
 
 
         public IList<Client> FilteredClientList
@@ -50,17 +59,12 @@ namespace SportClub.ViewModel
             (_addClientCommand = new RelayCommand(
                 () =>
                 {
-                    var gender = "";
-                    if (ClientInfo.Gender == "0") gender = "Мужской";
-                    else if (ClientInfo.Gender == "1") gender = "Женский";
-                    else gender = "Другой";
-
                     Context.Clients.Add(new Client
                     {
                         FirstName = ClientInfo.FirstName,
                         LastName = ClientInfo.LastName,
                         BirthDate = ClientInfo.BirthDate,
-                        Gender = gender,
+                        Gender = ClientInfo.Gender,
                         PhoneNumber = ClientInfo.PhoneNumber,
                         Email = ClientInfo.Email,
                         RegistrationDate = ClientInfo.RegistrationDate,
@@ -87,15 +91,10 @@ namespace SportClub.ViewModel
             (_updateClientCommand = new RelayCommand(
                 () =>
                 {
-                    var gender = "";
-                    if (SelectedClient.Gender == "0") gender = "Мужской";
-                    else if (SelectedClient.Gender == "1") gender = "Женский";
-                    else gender = "Другой";
-
                     SelectedClient.FirstName = ClientInfo.FirstName;
                     SelectedClient.LastName = ClientInfo.LastName;
                     SelectedClient.BirthDate = ClientInfo.BirthDate;
-                    SelectedClient.Gender = gender ;
+                    SelectedClient.Gender = ClientInfo.Gender;
                     SelectedClient.PhoneNumber = ClientInfo.PhoneNumber;
                     SelectedClient.Email = ClientInfo.Email;
                     SelectedClient.RegistrationDate = ClientInfo.RegistrationDate;
@@ -169,6 +168,7 @@ namespace SportClub.ViewModel
                 new RelayCommand(
                     () =>
                     {
+                        
                         ClientInfo.FirstName = SelectedClient.FirstName;
                         ClientInfo.LastName = SelectedClient.LastName;
                         ClientInfo.BirthDate = SelectedClient.BirthDate;
@@ -198,7 +198,7 @@ namespace SportClub.ViewModel
                     }
                     if (!string.IsNullOrEmpty(ClientFilter.Gender) && ClientFilter.Gender != "-1")
                     {
-                        var gender = "";
+                        var gender = ""; 
                         if (ClientFilter.Gender == "0") gender = "Мужской";
                         else if (ClientFilter.Gender == "1") gender = "Женский";
                         else if (ClientFilter.Gender == "2") gender = "Другой";
@@ -218,5 +218,7 @@ namespace SportClub.ViewModel
                     //}
                     FilteredClientList = queryResult?.ToList();
                 }));
+
+
     }
 }
