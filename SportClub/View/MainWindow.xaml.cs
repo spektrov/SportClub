@@ -24,5 +24,12 @@ namespace SportClub.View
           
             ClientsTab.DataContext = new ClientsTabViewModel(Context);
         }
+
+        private void SQLquery_Click(object sender, RoutedEventArgs e)
+        {
+            var window = new QueryEdit();
+            window.DataContext = new TopMenuViewModel();
+            window.Show();
+        }
     }
 }

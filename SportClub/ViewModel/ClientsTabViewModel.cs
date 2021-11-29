@@ -16,6 +16,7 @@ namespace SportClub.ViewModel
 {
     class ClientsTabViewModel : ViewModelBase
     {
+
         private IList<Client> _filteredClientList;
         private IList<Training> _trainingsList;
 

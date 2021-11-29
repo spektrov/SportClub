@@ -45,18 +45,14 @@
             <RowDefinition Height="17*"/>
         </Grid.RowDefinitions>
 
-        <Menu x:Name="TopMenu" Grid.Row="0" VerticalAlignment="Top" Height="32" Margin="0,0,-0.4,0">
-            <MenuItem Header="File">
-                <MenuItem Header="New Project" ></MenuItem>
-                <MenuItem Header="Open Project" >
-                    <MenuItem Header="WinForms"></MenuItem>
-                    <MenuItem Header="WPF" ></MenuItem>
-                </MenuItem>
-                <Separator />
-                <MenuItem Header="Exit" ></MenuItem>
+        <Menu x:Name="TopMenu" Grid.Row="0" VerticalAlignment="Top" Height="32">
+            <MenuItem Header="Файл">
+                <MenuItem Header="Сохранить" />
+                <MenuItem Header="Закрыть" />
             </MenuItem>
-            <MenuItem Header="Edit" ></MenuItem>
-            <MenuItem Header="View" ></MenuItem>
+            <MenuItem Header="Статистика" />
+            <MenuItem Header="SQL запрос" Click="SQLquery_Click" />
+            <MenuItem Header="Анализ эффективности" />
         </Menu>
 
         <TabControl Grid.Row="1" Margin="0,1.4,-0.4,-33.6" >
@@ -156,7 +152,6 @@
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
@@ -169,8 +164,6 @@
                                     <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[4].Header, StringFormat={}{0}:}"/>
                                     <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[5].Header, StringFormat={}{0}:}"/>
                                     <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[6].Header, StringFormat={}{0}:}"/>
-                                    <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[7].Header, StringFormat={}{0}:}"/>
-                                    <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[8].Header, StringFormat={}{0}:}"/>
 
                                     <TextBox x:Name="FnTbFilter" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding ClientFilter.FirstName, UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
@@ -217,7 +210,7 @@
                                         </i:Interaction.Triggers>
                                     </TextBox>
 
-                                    <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Margin="4,5,4,5" Content="Сбросить фильтры" Command="{Binding ResetFilterClientCommand}">
+                                    <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="4,5,4,5" Content="Сбросить фильтры" Command="{Binding ResetFilterClientCommand}">
                                         <Button.CommandParameter>
                                             <MultiBinding Converter="{StaticResource ResetFilterClientConverter}">
                                                 <Binding ElementName="FnTbFilter"/>
@@ -229,7 +222,7 @@
                                             </MultiBinding>
                                         </Button.CommandParameter>
                                     </Button>
-                                    <DataGrid Grid.Row="8" Grid.Column="0"  Grid.ColumnSpan="2" ItemsSource="{Binding FilteredClientList}">
+                                    <DataGrid Grid.Row="7" Grid.Column="0"  Grid.ColumnSpan="2" ItemsSource="{Binding FilteredClientList}">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="№" Binding="{Binding ClientId}"/>
                                             <DataGridTextColumn Header="Фамилия" Binding="{Binding FirstName}"/>
@@ -242,7 +235,7 @@
                                         </DataGrid.Columns>
                                     </DataGrid>
 
-                                    <DataGrid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding TrainingsList}" Margin="10,10.4,10.4,10.2">
+                                    <DataGrid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding TrainingsList}" Margin="10,10.4,10.4,10.2">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="№" Binding="{Binding TrainingId}"/>
                                             <DataGridTextColumn Header="Клиент" Binding="{Binding ClientId}"/>

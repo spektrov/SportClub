@@ -3,10 +3,41 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SportClub.View"
+        xmlns:local="clr-namespace:SportClub.ViewModel"
         mc:Ignorable="d"
         Title="QueryEdit" Height="450" Width="800">
+    <Window.Resources>
+        <Style TargetType="DataGrid">
+            <Setter Property="AutoGenerateColumns" Value="True" />
+            <Setter Property="CanUserAddRows" Value="False" />
+            <Setter Property="CanUserDeleteRows" Value="False" />
+        </Style>
+        <Style TargetType="{x:Type Control}" x:Key="marginButton">
+            <Setter Property="Margin"  Value="5" />
+        </Style>
+
+        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource marginButton}"></Style>
+    </Window.Resources>
+    
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="3*"></RowDefinition>
+            <RowDefinition Height="8*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="4*"></ColumnDefinition>
+            <ColumnDefinition Width="*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TextBox x:Name="InputBox" Grid.Row="0" Grid.Column="0" Text="SELECT " Padding="20"/>
+        <WrapPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" Margin="10">
+            <Button x:Name="DoSQL" Content="Do SQL" Width="100" Click="DoSQL_Click"/>
+            <Button x:Name="Clear" Content="Очистить" Width="100" Click="Clear_Click"/>
+            <Button x:Name="Exit" Content="Закрыть окно" Width="100" Click="Exit_Click"/>
+        </WrapPanel>
+        <DataGrid Name="ResultGrid" ItemsSource="{Binding}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
+            
+        </DataGrid>
+
     </Grid>
 </Window>
