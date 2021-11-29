@@ -59,7 +59,7 @@
             <MenuItem Header="View" ></MenuItem>
         </Menu>
 
-        <TabControl Grid.Row="1" Margin="0,1.4,-0.4,0.4" >
+        <TabControl Grid.Row="1" Margin="0,1.4,-0.4,-33.6" >
             <!-- < Clients TAB > -->
             <TabItem x:Name="ClientsTab" Header="Клиенты БИО" d:DataContext="{d:DesignInstance d:Type=local:ClientsTabViewModel, IsDesignTimeCreatable=True}">
                 <Grid>
@@ -98,7 +98,7 @@
                             </Grid.ColumnDefinitions>
 
                             <!-- < Clients CRUD > -->
-                            <Expander Grid.Row="0" Grid.Column="0" Header="Редактирование" IsExpanded="True">
+                            <Expander Grid.Row="0"  Header="Редактирование" IsExpanded="True">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
@@ -138,13 +138,13 @@
                                         <Button Margin="7" Padding="10,2,10,2" Content="Добавить" Command="{Binding AddClientCommand}"/>
                                         <Button Margin="7" Padding="10,2,10,2" Content="Изменить" Command="{Binding UpdateClientCommand}"/>
                                         <Button Margin="7" Padding="10,2,10,2" Content="Удалить" Command="{Binding DeleteClientCommand}"/>
-                                        <Button Margin="5" Padding="10,2,10,2" HorizontalAlignment="Right" Content="Договор" Command="{Binding ExportClientsCommand}"/>
+                                        <Button Margin="5" Padding="10,2,10,2" HorizontalAlignment="Right" Content="Договор" Command="{Binding SaveDocumentClient}"/>
                                     </DockPanel>
                                 </Grid>
                             </Expander>
-
+                            
                             <!-- < Clients Filter > -->
-                            <Expander Grid.Row="1" Grid.Column="0" Header="Фильтры">
+                            <Expander Grid.Row="1"  Header="Фильтры">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto"/>
@@ -242,7 +242,7 @@
                                         </DataGrid.Columns>
                                     </DataGrid>
 
-                                    <DataGrid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding TrainingsList}">
+                                    <DataGrid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding TrainingsList}" Margin="10,10.4,10.4,10.2">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="№" Binding="{Binding TrainingId}"/>
                                             <DataGridTextColumn Header="Клиент" Binding="{Binding ClientId}"/>

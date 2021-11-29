@@ -5,9 +5,11 @@ using System.Data.Entity;
 using System.Windows.Input;
 using System.Windows.Controls;
 using GalaSoft.MvvmLight;
+using Microsoft.Win32;
 using GalaSoft.MvvmLight.CommandWpf;
 using SportClub.SportClubDbContext;
 using SportClub.Model;
+using SportClub.Miscellaneous;
 
 
 namespace SportClub.ViewModel
@@ -66,6 +68,7 @@ namespace SportClub.ViewModel
         private RelayCommand _clientsGridSelectionChangedCommand;
         private RelayCommand _clientsFilterChangedCommand;
         private RelayCommand _trainingsSelectCommand;
+        private RelayCommand _saveDocumentClient;
 
         public ICommand AddClientCommand =>
             _addClientCommand ??
@@ -236,5 +239,25 @@ namespace SportClub.ViewModel
                 trainings = trainings.Where(training => training.ClientId.Equals(SelectedClient.ClientId));
                 TrainingsList = trainings?.ToList();
             }));
+
+        public ICommand SaveDocumentClient =>
+            _saveDocumentClient ?? (_saveDocumentClient =
+            new RelayCommand(() =>
+            {
+                var saveDialog = new SaveFileDialog
+                {
+                    DefaultExt = ".docx",
+                    Filter = "Document (.doc)|*.docx",
+                    FileName = SelectedClient.FirstName + SelectedClient.LastName
+                };
+                var result = saveDialog.ShowDialog();
+                if (result == true)
+                {
+                    var reportCreator = new ClientDocument();
+                    var report = reportCreator.GenerateClientDoc(SelectedClient.ClientId, SelectedClient.LastName, SelectedClient.FirstName, SelectedClient.RegistrationDate);
+                    report.Save(saveDialog.FileName);
+                }
+            },
+            () => Context.Clients.Count() != 0 && SelectedClient != null));
     }
 }
