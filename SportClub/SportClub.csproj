@@ -112,6 +112,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Miscellaneous\ClientDocument.cs" />
+    <Compile Include="Miscellaneous\EmailSender.cs" />
     <Compile Include="Miscellaneous\XamlConverters.cs" />
     <Compile Include="Model\Schedule.cs" />
     <Compile Include="Model\TrainingInGroup.cs" />

@@ -150,27 +150,29 @@ namespace SportClub.ViewModel
             (_resetFilterClientCommand = new RelayCommand<object>(
                 parameters =>
                 {
-                    if (parameters is Tuple<TextBox, TextBox, DatePicker, ComboBox, TextBox, TextBox> tuple)
+                    if (parameters is Tuple<TextBox, TextBox, TextBox, DatePicker, ComboBox, TextBox, TextBox> tuple)
                     {
                         tuple.Item1.Text = string.Empty;
                         tuple.Item2.Text = string.Empty;
-                        tuple.Item3.SelectedDate = null;
-                        tuple.Item4.SelectedIndex = -1;
-                        tuple.Item5.Text = string.Empty;
+                        tuple.Item3.Text = string.Empty;
+                        tuple.Item4.SelectedDate = null;
+                        tuple.Item5.SelectedIndex = -1;
                         tuple.Item6.Text = string.Empty;
+                        tuple.Item7.Text = string.Empty;
                     }
                 },
                 parameters =>
                 {
                     if (parameters == null) return false;
-                    if (parameters is Tuple<TextBox, TextBox, DatePicker, ComboBox, TextBox, TextBox> tuple)
+                    if (parameters is Tuple<TextBox, TextBox, TextBox, DatePicker, ComboBox, TextBox, TextBox> tuple)
                     {
                         if (string.IsNullOrEmpty(tuple.Item1.Text)
                             && string.IsNullOrEmpty(tuple.Item2.Text)
-                            && tuple.Item3.SelectedDate == null
-                            && tuple.Item4.SelectedIndex == -1
-                            && string.IsNullOrEmpty(tuple.Item5.Text)
+                            && string.IsNullOrEmpty(tuple.Item3.Text)
+                            && tuple.Item4.SelectedDate == null
+                            && tuple.Item5.SelectedIndex == -1
                             && string.IsNullOrEmpty(tuple.Item6.Text)
+                            && string.IsNullOrEmpty(tuple.Item7.Text)
                             )
                             
                             return false;
@@ -201,6 +203,11 @@ namespace SportClub.ViewModel
                 new RelayCommand(() =>
                 {
                     IEnumerable<Client> queryResult = Context.Clients.Local;
+                    if (!string.IsNullOrEmpty(ClientFilter.ClientId.ToString()))
+                    {
+                        queryResult = queryResult.Where(client => client.ClientId.ToString().ToLower().
+                            Contains(ClientFilter.ClientId.ToString().ToLower()));
+                    }
                     if (!string.IsNullOrEmpty(ClientFilter.FirstName))
                     {
                         queryResult = queryResult.Where(client => client.FirstName.ToLower().Contains(ClientFilter.FirstName.ToLower()));

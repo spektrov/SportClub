@@ -66,7 +66,7 @@
 
                     <DataGrid Grid.Column="0" x:Name="ClientsGrid" ItemsSource="{Binding Context.Clients.Local}" SelectedItem="{Binding SelectedClient, Mode=TwoWay}">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="№" Binding="{Binding ClientId}"/>
+                            <DataGridTextColumn Header="№" Binding="{Binding ClientId}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="Фамилия" Binding="{Binding FirstName}"/>
                             <DataGridTextColumn Header="Имя" Binding="{Binding LastName}"/>
                             <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDate, StringFormat={}{0:dd, MMMM, yyyy}}"/>
@@ -152,41 +152,50 @@
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
                                         <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
 
-                                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[1].Header, StringFormat={}{0}:}"/>
-                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[2].Header, StringFormat={}{0}:}"/>
-                                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[3].Header, StringFormat={}{0}:}"/>
-                                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[4].Header, StringFormat={}{0}:}"/>
-                                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[5].Header, StringFormat={}{0}:}"/>
-                                    <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[6].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[0].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[1].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[2].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[3].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[4].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[5].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[6].Header, StringFormat={}{0}:}"/>
 
-                                    <TextBox x:Name="FnTbFilter" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding ClientFilter.FirstName, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox x:Name="IdTbFilter" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding ClientFilter.FirstName, UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="TextChanged">
                                                 <i:InvokeCommandAction Command="{Binding ClientsFilterChangedCommand}"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </TextBox>
-                                    <TextBox x:Name="LnTbFilter" Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding ClientFilter.LastName, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox x:Name="FnTbFilter" Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding ClientFilter.FirstName, UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="TextChanged">
                                                 <i:InvokeCommandAction Command="{Binding ClientsFilterChangedCommand}"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </TextBox>
-                                    <DatePicker x:Name="BdDpFilter" Grid.Row="2" Grid.Column="1" Margin="3" SelectedDate="{Binding ClientFilter.BirthDate}">
+                                    <TextBox x:Name="LnTbFilter" Grid.Row="2" Grid.Column="1" Margin="3" Text="{Binding ClientFilter.LastName, UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="TextChanged">
+                                                <i:InvokeCommandAction Command="{Binding ClientsFilterChangedCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <DatePicker x:Name="BdDpFilter" Grid.Row="3" Grid.Column="1" Margin="3" SelectedDate="{Binding ClientFilter.BirthDate}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="SelectedDateChanged">
                                                 <i:InvokeCommandAction Command="{Binding ClientsFilterChangedCommand}"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </DatePicker>
-                                    <ComboBox x:Name="GDpFilter" Grid.Row="3" Grid.Column="1" Margin="3" 
+                                    <ComboBox x:Name="GDpFilter" Grid.Row="4" Grid.Column="1" Margin="3" 
                                               SelectedValue="{Binding ClientFilter.Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                                 ItemsSource="{Binding GenderTypes, Mode=OneTime}">
                                         <i:Interaction.Triggers>
@@ -195,14 +204,14 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </ComboBox>
-                                    <TextBox x:Name="PnTbFilter" Grid.Row="4" Grid.Column="1" Margin="3" Text="{Binding ClientFilter.PhoneNumber, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox x:Name="PnTbFilter" Grid.Row="5" Grid.Column="1" Margin="3" Text="{Binding ClientFilter.PhoneNumber, UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="TextChanged">
                                                 <i:InvokeCommandAction Command="{Binding ClientsFilterChangedCommand}"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </TextBox>
-                                    <TextBox x:Name="ETbFilter" Grid.Row="5" Grid.Column="1" Margin="3" Text="{Binding ClientFilter.Email, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox x:Name="ETbFilter" Grid.Row="6" Grid.Column="1" Margin="3" Text="{Binding ClientFilter.Email, UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="TextChanged">
                                                 <i:InvokeCommandAction Command="{Binding ClientsFilterChangedCommand}"/>
@@ -210,9 +219,10 @@
                                         </i:Interaction.Triggers>
                                     </TextBox>
 
-                                    <Button Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="4,5,4,5" Content="Сбросить фильтры" Command="{Binding ResetFilterClientCommand}">
+                                    <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Margin="4,5,4,5" Content="Сбросить фильтры" Command="{Binding ResetFilterClientCommand}">
                                         <Button.CommandParameter>
                                             <MultiBinding Converter="{StaticResource ResetFilterClientConverter}">
+                                                <Binding ElementName="IdTbFilter"/>
                                                 <Binding ElementName="FnTbFilter"/>
                                                 <Binding ElementName="LnTbFilter"/>
                                                 <Binding ElementName="BdDpFilter"/>
@@ -222,7 +232,7 @@
                                             </MultiBinding>
                                         </Button.CommandParameter>
                                     </Button>
-                                    <DataGrid Grid.Row="7" Grid.Column="0"  Grid.ColumnSpan="2" ItemsSource="{Binding FilteredClientList}">
+                                    <DataGrid Grid.Row="8" Grid.Column="0"  Grid.ColumnSpan="2" ItemsSource="{Binding FilteredClientList}">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="№" Binding="{Binding ClientId}"/>
                                             <DataGridTextColumn Header="Фамилия" Binding="{Binding FirstName}"/>
@@ -235,7 +245,7 @@
                                         </DataGrid.Columns>
                                     </DataGrid>
 
-                                    <DataGrid Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding TrainingsList}" Margin="10,10.4,10.4,10.2">
+                                    <DataGrid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding TrainingsList}" Margin="10,10.4,10.4,10.2">
                                         <DataGrid.Columns>
                                             <DataGridTextColumn Header="№" Binding="{Binding TrainingId}"/>
                                             <DataGridTextColumn Header="Клиент" Binding="{Binding ClientId}"/>

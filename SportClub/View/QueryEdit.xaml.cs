@@ -51,12 +51,13 @@ namespace SportClub.View
 
         private void Clear_Click(object sender, RoutedEventArgs e)
         {
-
+            ResultGrid.DataContext = null;
+            InputBox.Text = string.Empty;
         }
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-
+            Close();
         }
     }
 }
