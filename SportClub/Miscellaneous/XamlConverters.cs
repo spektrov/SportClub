@@ -12,8 +12,9 @@ namespace SportClub.Miscellaneous
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return new Tuple<TextBox, TextBox, DatePicker, ComboBox, TextBox, TextBox>(values[0] as TextBox,
-                values[1] as TextBox, values[2] as DatePicker, values[3] as ComboBox, values[4] as TextBox, values[5] as TextBox);
+            return new Tuple<TextBox, TextBox, TextBox, DatePicker, ComboBox, TextBox, TextBox>(values[0] as TextBox,
+                values[1] as TextBox, values[2] as TextBox, values[3] as DatePicker,
+                values[4] as ComboBox, values[5] as TextBox, values[6] as TextBox);
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

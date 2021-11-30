@@ -167,7 +167,7 @@
                                     <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[5].Header, StringFormat={}{0}:}"/>
                                     <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[6].Header, StringFormat={}{0}:}"/>
 
-                                    <TextBox x:Name="IdTbFilter" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding ClientFilter.FirstName, UpdateSourceTrigger=PropertyChanged}">
+                                    <TextBox x:Name="IdTbFilter" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding ClientFilter.ClientId, UpdateSourceTrigger=PropertyChanged}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="TextChanged">
                                                 <i:InvokeCommandAction Command="{Binding ClientsFilterChangedCommand}"/>
@@ -234,7 +234,7 @@
                                     </Button>
                                     <DataGrid Grid.Row="8" Grid.Column="0"  Grid.ColumnSpan="2" ItemsSource="{Binding FilteredClientList}">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="№" Binding="{Binding ClientId}"/>
+                                            <DataGridTextColumn Header="№" Binding="{Binding ClientId}" IsReadOnly="True"/>
                                             <DataGridTextColumn Header="Фамилия" Binding="{Binding FirstName}"/>
                                             <DataGridTextColumn Header="Имя" Binding="{Binding LastName}"/>
                                             <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDate, StringFormat={}{0:dd, MMMM, yyyy}}"/>

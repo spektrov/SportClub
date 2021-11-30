@@ -152,7 +152,7 @@ namespace SportClub.ViewModel
                 {
                     if (parameters is Tuple<TextBox, TextBox, TextBox, DatePicker, ComboBox, TextBox, TextBox> tuple)
                     {
-                        tuple.Item1.Text = string.Empty;
+                        tuple.Item1.Text = "-1";
                         tuple.Item2.Text = string.Empty;
                         tuple.Item3.Text = string.Empty;
                         tuple.Item4.SelectedDate = null;
@@ -203,10 +203,10 @@ namespace SportClub.ViewModel
                 new RelayCommand(() =>
                 {
                     IEnumerable<Client> queryResult = Context.Clients.Local;
-                    if (!string.IsNullOrEmpty(ClientFilter.ClientId.ToString()))
+                    if (ClientFilter.ClientId != -1)
                     {
-                        queryResult = queryResult.Where(client => client.ClientId.ToString().ToLower().
-                            Contains(ClientFilter.ClientId.ToString().ToLower()));
+                        queryResult = queryResult.Where(client => client.ClientId.ToString().
+                            Contains(ClientFilter.ClientId.ToString()));
                     }
                     if (!string.IsNullOrEmpty(ClientFilter.FirstName))
                     {
@@ -232,10 +232,7 @@ namespace SportClub.ViewModel
                     {
                         queryResult = queryResult.Where(client => !string.IsNullOrEmpty(client.Email) && client.Email.Contains(ClientFilter.Email));
                     }
-                    //if (ClientFilter.RegistrationDate != null)
-                    //{
-                    //    queryResult = queryResult.Where(client => client.RegistrationDate == ClientFilter.RegistrationDate);
-                    //}
+
                     FilteredClientList = queryResult?.ToList();
                 }));
 
