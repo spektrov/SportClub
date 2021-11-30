@@ -20,6 +20,7 @@ namespace SportClub.ViewModel
         private IList<Client> _filteredClientList;
         private IList<Training> _trainingsList;
 
+
         private static readonly List<string> _genderTypes = new List<string> {
             "Мужской",
             "Женский",
@@ -27,7 +28,7 @@ namespace SportClub.ViewModel
         };
 
         public SportClubContext Context { get; }
-        public Client ClientInfo { get; set; } = new Client();
+        public Client ClientInfo { get; set; } = new Client() { RegistrationDate = DateTime.Now};
         public Client ClientFilter { get; set; } = new Client();
         public Client SelectedClient { get; set; }
 
@@ -175,7 +176,7 @@ namespace SportClub.ViewModel
                             && string.IsNullOrEmpty(tuple.Item6.Text)
                             && string.IsNullOrEmpty(tuple.Item7.Text)
                             )
-                            
+
                             return false;
                         return true;
                     }
@@ -188,7 +189,7 @@ namespace SportClub.ViewModel
                 new RelayCommand(
                     () =>
                     {
-                        
+
                         ClientInfo.FirstName = SelectedClient.FirstName;
                         ClientInfo.LastName = SelectedClient.LastName;
                         ClientInfo.BirthDate = SelectedClient.BirthDate;
@@ -239,12 +240,12 @@ namespace SportClub.ViewModel
 
         public ICommand TrainingSelectChangedCommand =>
             _trainingsSelectCommand ?? (_trainingsSelectCommand =
-            new RelayCommand( () =>
-            {
-                IEnumerable<Training> trainings = Context.Trainings.Local;
-                trainings = trainings.Where(training => training.ClientId.Equals(SelectedClient.ClientId));
-                TrainingsList = trainings?.ToList();
-            }));
+            new RelayCommand(() =>
+           {
+               IEnumerable<Training> trainings = Context.Trainings.Local;
+               trainings = trainings.Where(training => training.ClientId.Equals(SelectedClient.ClientId));
+               TrainingsList = trainings?.ToList();
+           }));
 
         public ICommand SaveDocumentClient =>
             _saveDocumentClient ?? (_saveDocumentClient =
@@ -266,4 +267,12 @@ namespace SportClub.ViewModel
             },
             () => Context.Clients.Count() != 0 && SelectedClient != null));
     }
+
+    public static class DtHelper
+    {
+        public static DateTime ClientStartDate
+        {
+            get { return Convert.ToDateTime("01 October 2021"); }
+        }
+    } 
 }

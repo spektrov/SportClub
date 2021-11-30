@@ -1,8 +1,6 @@
-﻿using System;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Windows;
 using SportClub.SportClubDbContext;
-using SportClub.Model;
 using SportClub.ViewModel;
 
 namespace SportClub.View
@@ -24,6 +22,7 @@ namespace SportClub.View
           
             ClientsTab.DataContext = new ClientsTabViewModel(Context);
             TrainersTab.DataContext = new TrainersTabViewModel(Context);
+            TariffTab.DataContext = new TariffTabViewModel(Context);
         }
 
         private void SQLquery_Click(object sender, RoutedEventArgs e)

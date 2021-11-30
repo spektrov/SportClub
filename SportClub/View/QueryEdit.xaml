@@ -18,25 +18,25 @@
 
         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource marginButton}"></Style>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="3*"></RowDefinition>
-            <RowDefinition Height="8*"></RowDefinition>
+            <RowDefinition Height="4*"></RowDefinition>
+            <RowDefinition Height="9*"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="4*"></ColumnDefinition>
             <ColumnDefinition Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <TextBox x:Name="InputBox" Grid.Row="0" Grid.Column="0" Text="SELECT " Padding="20"/>
+        <TextBox x:Name="InputBox" Grid.Row="0" Grid.Column="0" Text="SELECT " Padding="20" BorderBrush="#FF4D63A5" FontSize="16"/>
         <WrapPanel Grid.Row="0" Grid.Column="1" Orientation="Vertical" Margin="10">
-            <Button x:Name="DoSQL" Content="Do SQL" Width="100" Click="DoSQL_Click"/>
-            <Button x:Name="Clear" Content="Очистить" Width="100" Click="Clear_Click"/>
-            <Button x:Name="Exit" Content="Закрыть окно" Width="100" Click="Exit_Click"/>
+            <Button x:Name="DoSQL" Content="Do SQL" Width="129" Click="DoSQL_Click" Height="24" Background="#FFF05151"/>
+            <Button x:Name="Clear" Content="Очистить" Width="129" Click="Clear_Click" Height="21" Background="#FFFAA3A3"/>
+            <Button x:Name="Exit" Content="Закрыть окно" Width="126" Click="Exit_Click" Height="23" Background="#FFF6CECE"/>
         </WrapPanel>
         <DataGrid Name="ResultGrid" ItemsSource="{Binding}" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2">
-            
+
         </DataGrid>
 
     </Grid>

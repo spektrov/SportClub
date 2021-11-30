@@ -136,6 +136,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ViewModel\TariffTabViewModel.cs" />
     <Compile Include="ViewModel\TopMenuViewModel.cs" />
     <Compile Include="ViewModel\TrainersTabViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">

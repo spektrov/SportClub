@@ -24,7 +24,7 @@ namespace SportClub.ViewModel
         };
 
         public SportClubContext Context { get; }
-        public Trainer TrainerInfo { get; set; } = new Trainer();
+        public Trainer TrainerInfo { get; set; } = new Trainer() { ApplyDate = DateTime.Now };
         public Trainer TrainerFilter { get; set; } = new Trainer();
         public Trainer SelectedTrainer { get; set; }
 
@@ -288,5 +288,13 @@ namespace SportClub.ViewModel
                     }
                 },
                 () => Context.Trainers.Count() != 0 && SelectedTrainer != null));
+    }
+
+    public static class DtHelper1
+    {
+        public static DateTime TrainerStartDate
+        {
+            get { return Convert.ToDateTime("01 September 2021"); }
+        }
     }
 }
