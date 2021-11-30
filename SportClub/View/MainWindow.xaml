@@ -10,6 +10,7 @@
         Title="MainWindow" Height="700" Width="1200">
     <Window.Resources>
         <misc:ResetFilterClientParametersConverter x:Key="ResetFilterClientConverter" />
+        <misc:ResetFilterTrainersParametersConverter x:Key="ResetFilterTrainerConverter" />
 
         <Style TargetType="DataGrid">
             <Setter Property="AutoGenerateColumns" Value="False" />
@@ -55,7 +56,7 @@
             <MenuItem Header="Анализ эффективности" />
         </Menu>
 
-        <TabControl Grid.Row="1" Margin="0,1.4,-0.4,-33.6" >
+        <TabControl Grid.Row="1" >
             <!-- < Clients TAB > -->
             <TabItem x:Name="ClientsTab" Header="Клиенты БИО" d:DataContext="{d:DesignInstance d:Type=local:ClientsTabViewModel, IsDesignTimeCreatable=True}">
                 <Grid>
@@ -69,11 +70,11 @@
                             <DataGridTextColumn Header="№" Binding="{Binding ClientId}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="Фамилия" Binding="{Binding FirstName}"/>
                             <DataGridTextColumn Header="Имя" Binding="{Binding LastName}"/>
-                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDate, StringFormat={}{0:dd, MMMM, yyyy}}"/>
+                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDate, StringFormat=\{0:dd.MM.yy\}}"/>
                             <DataGridTextColumn Header="Пол" Binding="{Binding Gender}"/>
                             <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}"/>
                             <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
-                            <DataGridTextColumn Header="Регистрация" Binding="{Binding Path=RegistrationDate, StringFormat={}{0:dd, MMMM, yyyy}}"/>
+                            <DataGridTextColumn Header="Регистрация" Binding="{Binding Path=RegistrationDate, StringFormat=\{0:dd.MM.yy\}}"/>
                         </DataGrid.Columns>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
@@ -237,11 +238,11 @@
                                             <DataGridTextColumn Header="№" Binding="{Binding ClientId}" IsReadOnly="True"/>
                                             <DataGridTextColumn Header="Фамилия" Binding="{Binding FirstName}"/>
                                             <DataGridTextColumn Header="Имя" Binding="{Binding LastName}"/>
-                                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDate, StringFormat={}{0:dd, MMMM, yyyy}}"/>
+                                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDate, StringFormat=\{0:dd.MM.yy\}}"/>
                                             <DataGridTextColumn Header="Пол" Binding="{Binding Gender}"/>
                                             <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}"/>
                                             <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
-                                            <DataGridTextColumn Header="Регистрация" Binding="{Binding Path=RegistrationDate, StringFormat={}{0:dd, MMMM, yyyy}}"/>
+                                            <DataGridTextColumn Header="Регистрация" Binding="{Binding Path=RegistrationDate, StringFormat=\{0:dd.MM.yy\}}"/>
                                         </DataGrid.Columns>
                                     </DataGrid>
 
@@ -259,6 +260,261 @@
                 </Grid>
             </TabItem>
             <!-- </ Clients TAB > -->
+
+
+            <!-- < Trainers TAB > -->
+            <TabItem x:Name="TrainersTab" Header="Тренеры БИО" d:DataContext="{d:DesignInstance d:Type=local:TrainersTabViewModel, IsDesignTimeCreatable=True}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid Grid.Column="0" x:Name="TrainersGrid" ItemsSource="{Binding Context.Trainers.Local}" SelectedItem="{Binding SelectedTrainer, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№" Binding="{Binding TrainerId}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Фамилия" Binding="{Binding FirstName}"/>
+                            <DataGridTextColumn Header="Имя" Binding="{Binding LastName}"/>
+                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDate, StringFormat=\{0:dd.MM.yy\}}"/>
+                            <DataGridTextColumn Header="Пол" Binding="{Binding Gender}"/>
+                            <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}"/>
+                            <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
+                            <DataGridTextColumn Header="Регистрация" Binding="{Binding Path=ApplyDate, StringFormat=\{0:dd.MM.yy\}}"/>
+                            <DataGridTextColumn Header="Спорт достижение" Binding="{Binding SportAchivements}"/>
+                            <DataGridTextColumn Header="Образование" Binding="{Binding Education}"/>
+                            <DataGridTextColumn Header="Опыт работы" Binding="{Binding Experience}"/>
+                            <DataGridTextColumn Header="Зарплата" Binding="{Binding Salary}"/>
+                        </DataGrid.Columns>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding TrainersGridSelectionChangedCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </DataGrid>
+
+                    <Border Grid.Column="1" BorderThickness="1" Margin="50" CornerRadius="10" BorderBrush="LightBlue">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- < Trainers CRUD > -->
+                            <Expander Grid.Row="0"  Header="Редактирование" IsExpanded="True">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[1].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[2].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[3].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[4].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[5].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[6].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[7].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[8].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="8" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[9].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="9" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[10].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="10" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[11].Header, StringFormat={}{0}:}"/>
+
+                                    <TextBox Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding TrainerInfo.FirstName, Mode=TwoWay}"/>
+                                    <TextBox Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding TrainerInfo.LastName, Mode=TwoWay}"/>
+                                    <DatePicker Grid.Row="2" Grid.Column="1" Margin="3" SelectedDate="{Binding TrainerInfo.BirthDate, Mode=TwoWay}"/>
+                                    <ComboBox x:Name="GenderTypeT" Grid.Row="3" Grid.Column="1" Margin="3" 
+                                              SelectedValue="{Binding TrainerInfo.Gender, Mode=TwoWay}" ItemsSource="{Binding GenderTypes, Mode=OneTime}" />
+
+                                    <TextBox Grid.Row="4" Grid.Column="1" Margin="3" Text="{Binding TrainerInfo.PhoneNumber, Mode=TwoWay}"/>
+                                    <TextBox Grid.Row="5" Grid.Column="1" Margin="3" Text="{Binding TrainerInfo.Email, Mode=TwoWay}"/>
+                                    <DatePicker Grid.Row="6" Grid.Column="1" Margin="3" SelectedDate="{Binding TrainerInfo.ApplyDate, Mode=TwoWay}"/>
+                                    <TextBox Grid.Row="7" Grid.Column="1" Margin="3" Text="{Binding TrainerInfo.SportAchivements, Mode=TwoWay}"/>
+                                    <TextBox Grid.Row="8" Grid.Column="1" Margin="3" Text="{Binding TrainerInfo.Education, Mode=TwoWay}"/>
+                                    <TextBox Grid.Row="9" Grid.Column="1" Margin="3" Text="{Binding TrainerInfo.Experience, Mode=TwoWay}"/>
+                                    <TextBox Grid.Row="10" Grid.Column="1" Margin="3" Text="{Binding TrainerInfo.Salary, Mode=TwoWay}"/>
+
+                                    <DockPanel Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" HorizontalAlignment="Center" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid, Mode=FindAncestor}, Path=ActualWidth}">
+                                        <Button Margin="7" Padding="10,2,10,2" Content="Добавить" Command="{Binding AddTrainerCommand}"/>
+                                        <Button Margin="7" Padding="10,2,10,2" Content="Изменить" Command="{Binding UpdateTrainerCommand}"/>
+                                        <Button Margin="7" Padding="10,2,10,2" Content="Удалить" Command="{Binding DeleteTrainerCommand}"/>
+                                        <Button Margin="5" Padding="10,2,10,2" HorizontalAlignment="Right" Content="Договор" Command="{Binding SaveDocumentTrainer}"/>
+                                    </DockPanel>
+                                </Grid>
+                            </Expander>
+
+                            <!-- < Trainers Filter > -->
+                            <Expander Grid.Row="1"  Header="Фильтры">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[0].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[1].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[2].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[3].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[4].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[5].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[6].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="7" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[10].Header, StringFormat={}{0} меньше чем:}"/>
+                                    <TextBlock Grid.Row="8" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[10].Header, StringFormat={}{0} больше или равно:}"/>
+                                    <TextBlock Grid.Row="9" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[11].Header, StringFormat={}{0} меньше чем:}"/>
+                                    <TextBlock Grid.Row="10" Grid.Column="0" Margin="5" Text="{Binding ElementName=TrainersGrid, Path=Columns[11].Header, StringFormat={}{0} больше или равно:}"/>
+
+                                    <TextBox x:Name="IdTrTbFilter" Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding TrainerFilter.TrainerId, UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="TextChanged">
+                                                <i:InvokeCommandAction Command="{Binding TrainersFilterChangedCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <TextBox x:Name="FnFrTbFilter" Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding TrainerFilter.FirstName, UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="TextChanged">
+                                                <i:InvokeCommandAction Command="{Binding TrainersFilterChangedCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <TextBox x:Name="LnTrTbFilter" Grid.Row="2" Grid.Column="1" Margin="3" Text="{Binding TrainerFilter.LastName, UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="TextChanged">
+                                                <i:InvokeCommandAction Command="{Binding TrainersFilterChangedCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <DatePicker x:Name="BdTrDpFilter" Grid.Row="3" Grid.Column="1" Margin="3" SelectedDate="{Binding TrainerFilter.BirthDate}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="SelectedDateChanged">
+                                                <i:InvokeCommandAction Command="{Binding TrainersFilterChangedCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </DatePicker>
+                                    <ComboBox x:Name="GTrFilter" Grid.Row="4" Grid.Column="1" Margin="3" 
+                                              SelectedValue="{Binding TrainerFilter.Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                                ItemsSource="{Binding GenderTypes, Mode=OneTime}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="SelectionChanged">
+                                                <i:InvokeCommandAction Command="{Binding TrainersFilterChangedCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ComboBox>
+                                    <TextBox x:Name="PnTrTbFilter" Grid.Row="5" Grid.Column="1" Margin="3" Text="{Binding TrainerFilter.PhoneNumber, UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="TextChanged">
+                                                <i:InvokeCommandAction Command="{Binding TrainersFilterChangedCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <TextBox x:Name="ETrTbFilter" Grid.Row="6" Grid.Column="1" Margin="3" Text="{Binding TrainerFilter.Email, UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="TextChanged">
+                                                <i:InvokeCommandAction Command="{Binding TrainersFilterChangedCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <TextBox x:Name="MinExpTbFilter" Grid.Row="7" Grid.Column="1" Margin="3" Text="{Binding LessExperience, UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="TextChanged">
+                                                <i:InvokeCommandAction Command="{Binding TrainersFilterChangedCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <TextBox x:Name="MaxExpTbFilter" Grid.Row="8" Grid.Column="1" Margin="3" Text="{Binding MoreExperience, UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="TextChanged">
+                                                <i:InvokeCommandAction Command="{Binding TrainersFilterChangedCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <TextBox x:Name="MinSalTbFilter" Grid.Row="9" Grid.Column="1" Margin="3" Text="{Binding LessSalary, UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="TextChanged">
+                                                <i:InvokeCommandAction Command="{Binding TrainersFilterChangedCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+                                    <TextBox x:Name="MaxSalTbFilter" Grid.Row="10" Grid.Column="1" Margin="3" Text="{Binding MoreSalary, UpdateSourceTrigger=PropertyChanged}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="TextChanged">
+                                                <i:InvokeCommandAction Command="{Binding TrainersFilterChangedCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </TextBox>
+
+                                    <Button Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="2" Margin="4,5,4,5" Content="Сбросить фильтры" Command="{Binding ResetFilterTrainerCommand}">
+                                        <Button.CommandParameter>
+                                            <MultiBinding Converter="{StaticResource ResetFilterTrainerConverter}">
+                                                <Binding ElementName="IdTrTbFilter"/>
+                                                <Binding ElementName="FnFrTbFilter"/>
+                                                <Binding ElementName="LnTrTbFilter"/>
+                                                <Binding ElementName="BdTrDpFilter"/>
+                                                <Binding ElementName="GTrFilter"/>
+                                                <Binding ElementName="PnTrTbFilter"/>
+                                                <Binding ElementName="ETrTbFilter"/>
+                                                <Binding ElementName="MinExpTbFilter"/>
+                                                <Binding ElementName="MaxExpTbFilter"/>
+                                                <Binding ElementName="MinSalTbFilter"/>
+                                                <Binding ElementName="MaxSalTbFilter"/>
+                                            </MultiBinding>
+                                        </Button.CommandParameter>
+                                    </Button>
+                                    <DataGrid Grid.Row="12" Grid.Column="0"  Grid.ColumnSpan="2" ItemsSource="{Binding FilteredTrainerList}">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="№" Binding="{Binding ClientId}" IsReadOnly="True"/>
+                                            <DataGridTextColumn Header="Фамилия" Binding="{Binding FirstName}"/>
+                                            <DataGridTextColumn Header="Имя" Binding="{Binding LastName}"/>
+                                            <DataGridTextColumn Header="Дата рождения" Binding="{Binding Path=BirthDate, StringFormat=\{0:dd.MM.yy\}}"/>
+                                            <DataGridTextColumn Header="Пол" Binding="{Binding Gender}"/>
+                                            <DataGridTextColumn Header="Телефон" Binding="{Binding PhoneNumber}"/>
+                                            <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
+                                            <DataGridTextColumn Header="Регистрация" Binding="{Binding Path=ApplyDate, StringFormat=\{0:dd.MM.yy\}}"/>
+                                            <DataGridTextColumn Header="Спорт достижение" Binding="{Binding SportAchivements}"/>
+                                            <DataGridTextColumn Header="Образование" Binding="{Binding Education}"/>
+                                            <DataGridTextColumn Header="Опыт работы" Binding="{Binding Experience}"/>
+                                            <DataGridTextColumn Header="Зарплата" Binding="{Binding Salary}"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </Grid>
+                            </Expander>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <!-- </ Trainer TAB > -->
         </TabControl>
     </Grid>
 </Window>

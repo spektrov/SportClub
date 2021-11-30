@@ -23,6 +23,7 @@ namespace SportClub.View
             Context = new SportClubContext();
           
             ClientsTab.DataContext = new ClientsTabViewModel(Context);
+            TrainersTab.DataContext = new TrainersTabViewModel(Context);
         }
 
         private void SQLquery_Click(object sender, RoutedEventArgs e)

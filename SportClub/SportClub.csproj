@@ -113,6 +113,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Miscellaneous\ClientDocument.cs" />
     <Compile Include="Miscellaneous\EmailSender.cs" />
+    <Compile Include="Miscellaneous\TrainerDocument.cs" />
     <Compile Include="Miscellaneous\XamlConverters.cs" />
     <Compile Include="Model\Schedule.cs" />
     <Compile Include="Model\TrainingInGroup.cs" />
@@ -136,6 +137,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\TopMenuViewModel.cs" />
+    <Compile Include="ViewModel\TrainersTabViewModel.cs" />
     <Compile Include="View\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>

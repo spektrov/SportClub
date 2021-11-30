@@ -62,6 +62,7 @@ namespace SportClub.ViewModel
             Context.Trainings.Load();
         }
 
+
         private RelayCommand _addClientCommand;
         private RelayCommand _updateClientCommand;
         private RelayCommand _deleteClientCommand;
