@@ -13,6 +13,11 @@
         <misc:ResetFilterClientParametersConverter x:Key="ResetFilterClientConverter" />
         <misc:ResetFilterTrainersParametersConverter x:Key="ResetFilterTrainerConverter" />
 
+        <!-- For large content, better go for a Virtualizing StackPanel -->
+        <ItemsPanelTemplate x:Key="ItemsTemplate">
+            <VirtualizingStackPanel/>
+        </ItemsPanelTemplate>
+        
         <Style TargetType="DataGrid">
             <Setter Property="AutoGenerateColumns" Value="False" />
             <Setter Property="CanUserAddRows" Value="False" />
@@ -144,7 +149,7 @@
                                     </DockPanel>
                                 </Grid>
                             </Expander>
-                            
+
                             <!-- < Clients Filter > -->
                             <Expander Grid.Row="1"  Header="Фильтры">
                                 <Grid>
@@ -271,8 +276,8 @@
             <TabItem x:Name="TrainersTab" Header="Тренеры БИО" d:DataContext="{d:DesignInstance d:Type=local:TrainersTabViewModel, IsDesignTimeCreatable=True}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
 
                     <DataGrid Grid.Column="0" x:Name="TrainersGrid" ItemsSource="{Binding Context.Trainers.Local}" SelectedItem="{Binding SelectedTrainer, Mode=TwoWay}">
@@ -604,7 +609,108 @@
 
                             <!-- < Clients Filter > -->
                             <Expander Grid.Row="1"  Header="Фильтры" IsEnabled="False">
-                                
+
+                            </Expander>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <!-- </ Tariff TAB > -->
+
+            <!-- < Triaining TAB > -->
+            <TabItem x:Name="TrainingTab" Header="Посещения" d:DataContext="{d:DesignInstance d:Type=local:TrainingTabViewModel, IsDesignTimeCreatable=True}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="5*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid Grid.Column="0" x:Name="TrainingsGrid" ItemsSource="{Binding Context.Trainings.Local}" SelectedItem="{Binding SelectedTraining, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№" Binding="{Binding TrainingId}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Клиент" Binding="{Binding Client.ClientId}"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding TrainingDate, StringFormat=\{0:dd MM yyyy\}}"/>
+                        </DataGrid.Columns>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding TrainingsGridSelectionChangedCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </DataGrid>
+
+                    <Border Grid.Column="1" BorderThickness="1" Margin="50" CornerRadius="10" BorderBrush="LightBlue">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- < Training CRUD > -->
+                            <Expander Grid.Row="0"  Header="Редактирование" IsExpanded="True">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="45*"/>
+                                        <ColumnDefinition Width="92*"/>
+                                        <ColumnDefinition Width="237*"/>
+                                        <ColumnDefinition Width="373*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=TrainingsGrid, Path=Columns[1].Header, StringFormat={}{0}:}" Grid.ColumnSpan="3"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,4.8,4.6" Text="{Binding ElementName=TrainingsGrid, Path=Columns[2].Header, StringFormat={}{0}:}" Grid.ColumnSpan="3"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="3" Margin="5,5,4.8,5" >
+                                        <Run Text="№ " />
+                                        <Run Text="{Binding TrainingInfo.Client.ClientId}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding TrainingInfo.Client.FirstName}" />
+                                    </TextBlock>
+
+                                    <local:FilteredComboBox Grid.Row="1" Grid.Column="3" ItemsSource="{Binding Context.Clients.Local}"
+                                            SelectedItem="{Binding TrainingInfo.Client}"
+                                            IsEditable="True"
+                                            IsTextSearchEnabled="False" 
+                                            StaysOpenOnEdit="True">
+                                        <local:FilteredComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                            </ItemsPanelTemplate>
+                                        </local:FilteredComboBox.ItemsPanel>
+                                    </local:FilteredComboBox>
+                                    
+                                    <DatePicker Grid.Row="2" Grid.Column="3" Margin="3.2,3,2.6,3.6" DisplayDateStart="{x:Static local:DtHelper.ClientStartDate}" DisplayDateEnd="{x:Static sys:DateTime.Now}"
+                                                SelectedDate="{Binding TrainingInfo.TrainingDate, Mode=TwoWay}">
+                                        <DatePicker.BlackoutDates>
+                                            <CalendarDateRange Start="{x:Static sys:DateTime.MinValue}" End="{x:Static local:DtHelper.ClientStartDate}"/>
+                                        </DatePicker.BlackoutDates>
+                                    </DatePicker>
+
+                                    <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="10,9.4,-10.4,10.4" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid, Mode=FindAncestor}, Path=ActualWidth}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="2*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="7" Padding="10,2,10,2" Content="Добавить" Command="{Binding AddTrainingCommand}"/>
+                                        <Button Grid.Row="1" Grid.Column="0" Margin="7" Padding="10,2,10,2" Content="Изменить" Command="{Binding UpdateTrainingCommand}"/>
+                                        <Button Grid.Row="1" Grid.Column="1" Margin="7" Padding="10,2,10,2" Content="Удалить" Command="{Binding DeleteTrainingCommand}"/>
+                                    </Grid>
+                                </Grid>
+                            </Expander>
+
+                            <!-- < Training Filter > -->
+                            <Expander Grid.Row="1"  Header="Фильтры" IsEnabled="False">
+
                             </Expander>
                         </Grid>
                     </Border>

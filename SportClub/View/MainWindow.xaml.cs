@@ -1,7 +1,13 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Collections.Generic;
+using System.Data.Entity;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
 using SportClub.SportClubDbContext;
 using SportClub.ViewModel;
+using SportClub.Model;
+using System.Linq;
 
 namespace SportClub.View
 {
@@ -23,6 +29,7 @@ namespace SportClub.View
             ClientsTab.DataContext = new ClientsTabViewModel(Context);
             TrainersTab.DataContext = new TrainersTabViewModel(Context);
             TariffTab.DataContext = new TariffTabViewModel(Context);
+            TrainingTab.DataContext = new TrainingTabViewModel(Context);
         }
 
         private void SQLquery_Click(object sender, RoutedEventArgs e)
@@ -30,6 +37,17 @@ namespace SportClub.View
             var window = new QueryEdit();
             window.DataContext = new TopMenuViewModel();
             window.Show();
+        }
+
+        private void TrClients_TextChanged(object sender, RoutedEventArgs e)
+        {
+            
+            
+        }
+
+        private void TrClients_SelectionChanged(object sender, RoutedEventArgs e)
+        {
+            
         }
     }
 }

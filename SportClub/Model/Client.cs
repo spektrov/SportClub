@@ -173,5 +173,10 @@ namespace SportClub.Model
             _trainingInGroups = new List<TrainingInGroup>();
             _subscriptions = new List<Subscription>();
         }
+
+        public override string ToString()
+        {
+            return ClientId.ToString();
+        }
     }
 }
