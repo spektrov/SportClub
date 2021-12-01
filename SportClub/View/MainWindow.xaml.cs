@@ -30,6 +30,7 @@ namespace SportClub.View
             TrainersTab.DataContext = new TrainersTabViewModel(Context);
             TariffTab.DataContext = new TariffTabViewModel(Context);
             TrainingTab.DataContext = new TrainingTabViewModel(Context);
+            SubscriptionTab.DataContext = new SubscriptionsTabViewModel(Context);
         }
 
         private void SQLquery_Click(object sender, RoutedEventArgs e)
@@ -37,17 +38,6 @@ namespace SportClub.View
             var window = new QueryEdit();
             window.DataContext = new TopMenuViewModel();
             window.Show();
-        }
-
-        private void TrClients_TextChanged(object sender, RoutedEventArgs e)
-        {
-            
-            
-        }
-
-        private void TrClients_SelectionChanged(object sender, RoutedEventArgs e)
-        {
-            
         }
     }
 }

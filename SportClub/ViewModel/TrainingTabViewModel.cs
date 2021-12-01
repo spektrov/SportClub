@@ -10,8 +10,6 @@ namespace SportClub.ViewModel
 {
     class TrainingTabViewModel : ViewModelBase
     {
-        private IList<Training> _filteredTrainingList;
-
         public SportClubContext Context { get; }
         public Training TrainingInfo { get; set; } = new Training() { TrainingDate = System.DateTime.Now};
         public Training SelectedTraining { get; set; }

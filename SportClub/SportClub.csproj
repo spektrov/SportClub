@@ -137,6 +137,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModel\FilteredComboBox.cs" />
+    <Compile Include="ViewModel\SubscriptionsTabViewModel.cs" />
     <Compile Include="ViewModel\TariffTabViewModel.cs" />
     <Compile Include="ViewModel\TopMenuViewModel.cs" />
     <Compile Include="ViewModel\TrainersTabViewModel.cs" />

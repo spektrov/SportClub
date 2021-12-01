@@ -529,7 +529,7 @@
                     </Border>
                 </Grid>
             </TabItem>
-            <!-- </ Trainer TAB > -->
+            <!-- </ Trainers TAB > -->
 
 
             <!-- < Tariff TAB > -->
@@ -617,7 +617,7 @@
             </TabItem>
             <!-- </ Tariff TAB > -->
 
-            <!-- < Triaining TAB > -->
+            <!-- < Training TAB > -->
             <TabItem x:Name="TrainingTab" Header="Посещения" d:DataContext="{d:DesignInstance d:Type=local:TrainingTabViewModel, IsDesignTimeCreatable=True}">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -671,6 +671,8 @@
                                         <Run Text="{Binding TrainingInfo.Client.ClientId}" />
                                         <Run Text=" - " />
                                         <Run Text="{Binding TrainingInfo.Client.FirstName}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding TrainingInfo.Client.LastName}" />
                                     </TextBlock>
 
                                     <local:FilteredComboBox Grid.Row="1" Grid.Column="3" ItemsSource="{Binding Context.Clients.Local}"
@@ -716,7 +718,137 @@
                     </Border>
                 </Grid>
             </TabItem>
-            <!-- </ Tariff TAB > -->
+            <!-- </ Training TAB > -->
+
+            <!-- < Subscription TAB > -->
+            <TabItem x:Name="SubscriptionTab" Header="Абонименты" d:DataContext="{d:DesignInstance d:Type=local:SubscriptionsTabViewModel, IsDesignTimeCreatable=True}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid Grid.Column="0" x:Name="SubscriptionGrid" ItemsSource="{Binding Context.Subscriptions.Local}" SelectedItem="{Binding SelectedSubscription, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Клиент" Binding="{Binding Client.ClientId}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Тариф" Binding="{Binding Tariff.TariffId}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Посещения" Binding="{Binding VisitLeft}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Персональные" Binding="{Binding PersonalTrainingLeft}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Групповые" Binding="{Binding GroupTrainingLeft}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Покупка" Binding="{Binding BuyDate, StringFormat=\{0:dd MM yyyy\}}"/>
+                            <DataGridTextColumn Header="Действен до" Binding="{Binding ValidityDate, StringFormat=\{0:dd MM yyyy\}}" IsReadOnly="True"/>
+                        </DataGrid.Columns>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SubscriptionGridSelectionChangedCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </DataGrid>
+
+                    <Border Grid.Column="1" BorderThickness="1" Margin="50" CornerRadius="10" BorderBrush="LightBlue">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- < Subscription CRUD > -->
+                            <Expander Grid.Row="0"  Header="Редактирование" IsExpanded="True">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=SubscriptionGrid, Path=Columns[0].Header, StringFormat={}{0}:}" />
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=SubscriptionGrid, Path=Columns[1].Header, StringFormat={}{0}:}" />
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="5,5,4.8,4.6" Text="{Binding ElementName=SubscriptionGrid, Path=Columns[5].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="5,5,4.8,5" >
+                                        <Run Text="№ " />
+                                        <Run Text="{Binding SubscriptionInfo.Client.ClientId}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding SubscriptionInfo.Client.FirstName}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding SubscriptionInfo.Client.LastName}" />
+                                    </TextBlock>
+
+                                    <local:FilteredComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Context.Clients.Local}"
+                                            SelectedItem="{Binding SubscriptionInfo.Client}"
+                                            IsEditable="True"
+                                            IsTextSearchEnabled="False" 
+                                            StaysOpenOnEdit="True">
+                                        <local:FilteredComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                            </ItemsPanelTemplate>
+                                        </local:FilteredComboBox.ItemsPanel>
+                                    </local:FilteredComboBox>
+
+                                    <local:FilteredComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Context.Tariffs.Local}"
+                                            SelectedItem="{Binding SubscriptionInfo.Tariff}"
+                                            IsEditable="True"
+                                            IsTextSearchEnabled="False" 
+                                            StaysOpenOnEdit="True">
+                                        <local:FilteredComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                            </ItemsPanelTemplate>
+                                        </local:FilteredComboBox.ItemsPanel>
+                                    </local:FilteredComboBox>
+
+                                    <DatePicker Grid.Row="3" Grid.Column="1" Margin="3.2,3,2.6,3.6" DisplayDateStart="{x:Static local:DtHelper.ClientStartDate}" DisplayDateEnd="{x:Static sys:DateTime.Now}"
+                                                SelectedDate="{Binding SubscriptionInfo.BuyDate, Mode=TwoWay}">
+                                        <DatePicker.BlackoutDates>
+                                            <CalendarDateRange Start="{x:Static sys:DateTime.MinValue}" End="{x:Static local:DtHelper.ClientStartDate}"/>
+                                        </DatePicker.BlackoutDates>
+                                    </DatePicker>
+
+                                    <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Margin="10,9.4,-10.4,10.4" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid, Mode=FindAncestor}, Path=ActualWidth}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="2*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="7" Padding="10,2,10,2" Content="Обновить" Command="{Binding UpdateSubscriptionCommand}"/>
+                                        <Button Grid.Row="1" Grid.Column="0" Margin="7" Padding="10,2,10,2" Content="Добавить" Command="{Binding AddSubscriptionCommand}"/>
+                                        <Button Grid.Row="1" Grid.Column="1" Margin="7" Padding="10,2,10,2" Content="Удалить" Command="{Binding DeleteSubscriptionCommand}"/>
+                                    </Grid>
+                                </Grid>
+                            </Expander>
+
+                            <!-- < Subscription Filter > -->
+                            <Expander Grid.Row="1"  Header="Тарифы">
+                                <DataGrid Grid.ColumnSpan="2" ItemsSource="{Binding Context.Tariffs.Local}" Margin="10,10.4,10.4,10.2">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="№" Binding="{Binding TariffId}" IsReadOnly="True"/>
+                                        <DataGridTextColumn Header="Стоимость" Binding="{Binding Price}"/>
+                                        <DataGridTextColumn Header="Посещения" Binding="{Binding VisitNumber}"/>
+                                        <DataGridTextColumn Header="Персональные" Binding="{Binding PersonalTraining}"/>
+                                        <DataGridTextColumn Header="Групповые" Binding="{Binding GroupTraining}"/>
+                                        <DataGridTextColumn Header="Кол-во дней" Binding="{Binding Duration}"/>
+                                        <DataGridTextColumn Header="Дополнительно" Binding="{Binding AdditionalInformation}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Expander>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <!-- </ Subscription TAB > -->
         </TabControl>
     </Grid>
 </Window>
