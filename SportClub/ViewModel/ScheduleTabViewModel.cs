@@ -4,8 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using SportClub.SportClubDbContext;
 using SportClub.Model;
-using System.Collections.Generic;
-using System.Linq;
+
 
 namespace SportClub.ViewModel
 {

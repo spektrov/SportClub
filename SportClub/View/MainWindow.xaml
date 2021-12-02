@@ -1016,7 +1016,7 @@
             <!-- </ Training TAB > -->
 
             <!-- < Schedule TAB > -->
-            <TabItem x:Name="ScheduleTab" Header="Абонeменты" d:DataContext="{d:DesignInstance d:Type=local:ScheduleTabViewModel, IsDesignTimeCreatable=True}">
+            <TabItem x:Name="ScheduleTab" Header="Расписание" d:DataContext="{d:DesignInstance d:Type=local:ScheduleTabViewModel, IsDesignTimeCreatable=True}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="2*"/>
