@@ -16,7 +16,7 @@ namespace SportClub.SportClubDbContext
             Property(client => client.LastName).IsRequired().HasMaxLength(50);
             Property(client => client.FirstName).IsRequired().HasMaxLength(50);
             Property(client => client.BirthDate).HasColumnType("datetime2").IsOptional();
-            Property(client => client.Gender).IsRequired().HasMaxLength(20);
+            Property(client => client.Gender).IsRequired();
             Property(client => client.PhoneNumber).HasMaxLength(15).IsOptional();
             Property(client => client.Email).HasMaxLength(30).IsOptional();
             Property(client => client.RegistrationDate).IsRequired();

@@ -56,6 +56,8 @@ namespace SportClub.ViewModel
                 {
                     SelectedTraining.Client = TrainingInfo.Client;
                     SelectedTraining.TrainingDate = TrainingInfo.TrainingDate;
+
+                    Context.SaveChanges();
                 },
                 () =>
                 {

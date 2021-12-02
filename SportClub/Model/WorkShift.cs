@@ -9,9 +9,9 @@ namespace SportClub.Model
     class WorkShift : INotifyPropertyChanged
     {
         private int _workShiftId;
-        private DayOfWeek _dayOfWeek;
-        private DateTime _startHour;
-        private DateTime _endHour;
+        private DayOfWeekRussian _dayOfWeek;
+        private TimeSpan _startHour;
+        private TimeSpan _endHour;
         private IList<Schedule> _schedules;
 
         public int WorkShiftId
@@ -25,7 +25,7 @@ namespace SportClub.Model
             }
         }
 
-        public DayOfWeek DayOfWeek
+        public DayOfWeekRussian DayOfWeek
         {
             get => _dayOfWeek;
             set
@@ -36,7 +36,7 @@ namespace SportClub.Model
             }
         }
 
-        public DateTime StartHour
+        public TimeSpan StartHour
         {
             get => _startHour;
             set
@@ -47,7 +47,7 @@ namespace SportClub.Model
             }
         }
 
-        public DateTime EndHour
+        public TimeSpan EndHour
         {
             get => _endHour;
             set

@@ -68,6 +68,8 @@ namespace SportClub.ViewModel
                     SelectedSubscription.GroupTrainingLeft = SubscriptionInfo.Tariff.GroupTraining;
                     SelectedSubscription.BuyDate = SubscriptionInfo.BuyDate;
                     SelectedSubscription.ValidityDate = SubscriptionInfo.BuyDate.AddDays(SubscriptionInfo.Tariff.Duration);
+
+                    Context.SaveChanges();
                 },
                 () =>
                 {

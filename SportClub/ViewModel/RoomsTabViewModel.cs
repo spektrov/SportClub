@@ -51,6 +51,8 @@ namespace SportClub.ViewModel
                 () =>
                 {
                     SelectedRoom.RoomName = RoomInfo.RoomName;
+
+                    Context.SaveChanges();
                 },
                 () =>
                 {

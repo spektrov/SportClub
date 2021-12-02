@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity.ModelConfiguration;
+﻿using System.Data.Entity.ModelConfiguration;
 using SportClub.Model;
 
 namespace SportClub.SportClubDbContext
@@ -14,8 +9,8 @@ namespace SportClub.SportClubDbContext
         {
             HasKey(shift => shift.WorkShiftId);
             Property(shift => shift.DayOfWeek).IsRequired();
-            Property(shift => shift.StartHour).HasColumnType("datetime2").IsRequired();
-            Property(shift => shift.EndHour).HasColumnType("datetime2").IsRequired();
+            Property(shift => shift.StartHour).IsRequired();
+            Property(shift => shift.EndHour).IsRequired();
 
             ToTable("WorkShifts");
         }

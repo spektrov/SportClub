@@ -17,18 +17,12 @@ namespace SportClub.ViewModel
     {
         private IList<Trainer> _filteredTrainerList;
 
-        private static readonly List<string> _genderTypes = new List<string> {
-            "Мужской",
-            "Женский",
-            "Другой",
-        };
-
         public SportClubContext Context { get; }
         public Trainer TrainerInfo { get; set; } = new Trainer() { ApplyDate = DateTime.Now };
-        public Trainer TrainerFilter { get; set; } = new Trainer();
+        public Trainer TrainerFilter { get; set; } = new Trainer() { Gender = Model.Genders.Не_Выбрано};
         public Trainer SelectedTrainer { get; set; }
 
-        public List<string> GenderTypes { get => _genderTypes; }
+        public Array Genders { get => Enum.GetValues(typeof(Genders)); }
 
         public int? LessExperience { get; set; }
         public int? MoreExperience { get; set; }
@@ -114,6 +108,8 @@ namespace SportClub.ViewModel
                     SelectedTrainer.Education = TrainerInfo.Education;
                     SelectedTrainer.Experience = TrainerInfo.Experience;
                     SelectedTrainer.Salary = TrainerInfo.Salary;
+
+                    Context.SaveChanges();
                 },
                 () =>
                 {
@@ -155,7 +151,7 @@ namespace SportClub.ViewModel
                         tuple.Item2.Text = string.Empty;
                         tuple.Item3.Text = string.Empty;
                         tuple.Item4.SelectedDate = null;
-                        tuple.Item5.SelectedIndex = -1;
+                        tuple.Item5.SelectedIndex = 0;
                         tuple.Item6.Text = string.Empty;
                         tuple.Item7.Text = string.Empty;
                         tuple.Rest.Item1.Text = "0";
@@ -233,7 +229,7 @@ namespace SportClub.ViewModel
                     {
                         queryResult = queryResult.Where(trainer => trainer.BirthDate != null && trainer.BirthDate == TrainerFilter.BirthDate);
                     }
-                    if (!string.IsNullOrEmpty(TrainerFilter.Gender) && TrainerFilter.Gender != "-1")
+                    if (TrainerFilter.Gender != 0)
                     {
                         queryResult = queryResult.Where(trainer => trainer.Gender.Equals(TrainerFilter.Gender));
                     }

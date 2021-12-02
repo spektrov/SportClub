@@ -5,6 +5,8 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        
+        xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:SportClub.ViewModel"
         xmlns:misc="clr-namespace:SportClub.Miscellaneous"
         mc:Ignorable="d"
@@ -13,11 +15,6 @@
         <misc:ResetFilterClientParametersConverter x:Key="ResetFilterClientConverter" />
         <misc:ResetFilterTrainersParametersConverter x:Key="ResetFilterTrainerConverter" />
 
-        <!-- For large content, better go for a Virtualizing StackPanel -->
-        <ItemsPanelTemplate x:Key="ItemsTemplate">
-            <VirtualizingStackPanel/>
-        </ItemsPanelTemplate>
-        
         <Style TargetType="DataGrid">
             <Setter Property="AutoGenerateColumns" Value="False" />
             <Setter Property="CanUserAddRows" Value="False" />
@@ -131,7 +128,7 @@
                                     <TextBox Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding ClientInfo.LastName, Mode=TwoWay}"/>
                                     <DatePicker Grid.Row="2" Grid.Column="1" Margin="3" SelectedDate="{Binding ClientInfo.BirthDate, Mode=TwoWay}"/>
                                     <ComboBox x:Name="GenderType" Grid.Row="3" Grid.Column="1" Margin="3" 
-                                              SelectedValue="{Binding ClientInfo.Gender, Mode=TwoWay}" ItemsSource="{Binding GenderTypes, Mode=OneTime}" />
+                                              SelectedValue="{Binding ClientInfo.Gender, Mode=TwoWay}" ItemsSource="{Binding Genders, Mode=OneTime}" />
 
                                     <TextBox Grid.Row="4" Grid.Column="1" Margin="3" Text="{Binding ClientInfo.PhoneNumber, Mode=TwoWay}"/>
                                     <TextBox Grid.Row="5" Grid.Column="1" Margin="3" Text="{Binding ClientInfo.Email, Mode=TwoWay}"/>
@@ -208,7 +205,7 @@
                                     </DatePicker>
                                     <ComboBox x:Name="GDpFilter" Grid.Row="4" Grid.Column="1" Margin="3" 
                                               SelectedValue="{Binding ClientFilter.Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                ItemsSource="{Binding GenderTypes, Mode=OneTime}">
+                                                ItemsSource="{Binding Genders, Mode=OneTime}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="SelectionChanged">
                                                 <i:InvokeCommandAction Command="{Binding ClientsFilterChangedCommand}"/>
@@ -270,7 +267,6 @@
                 </Grid>
             </TabItem>
             <!-- </ Clients TAB > -->
-
 
             <!-- < Trainers TAB > -->
             <TabItem x:Name="TrainersTab" Header="Тренеры БИО" d:DataContext="{d:DesignInstance d:Type=local:TrainersTabViewModel, IsDesignTimeCreatable=True}">
@@ -350,7 +346,7 @@
                                     <TextBox Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding TrainerInfo.LastName, Mode=TwoWay}"/>
                                     <DatePicker Grid.Row="2" Grid.Column="1" Margin="3" SelectedDate="{Binding TrainerInfo.BirthDate, Mode=TwoWay}"/>
                                     <ComboBox x:Name="GenderTypeT" Grid.Row="3" Grid.Column="1" Margin="3" 
-                                              SelectedValue="{Binding TrainerInfo.Gender, Mode=TwoWay}" ItemsSource="{Binding GenderTypes, Mode=OneTime}" />
+                                              SelectedValue="{Binding TrainerInfo.Gender, Mode=TwoWay}" ItemsSource="{Binding Genders, Mode=OneTime}" />
 
                                     <TextBox Grid.Row="4" Grid.Column="1" Margin="3" Text="{Binding TrainerInfo.PhoneNumber, Mode=TwoWay}"/>
                                     <TextBox Grid.Row="5" Grid.Column="1" Margin="3" Text="{Binding TrainerInfo.Email, Mode=TwoWay}"/>
@@ -440,7 +436,7 @@
                                     </DatePicker>
                                     <ComboBox x:Name="GTrFilter" Grid.Row="4" Grid.Column="1" Margin="3" 
                                               SelectedValue="{Binding TrainerFilter.Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                                ItemsSource="{Binding GenderTypes, Mode=OneTime}">
+                                                ItemsSource="{Binding Genders, Mode=OneTime}">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="SelectionChanged">
                                                 <i:InvokeCommandAction Command="{Binding TrainersFilterChangedCommand}"/>
@@ -530,7 +526,6 @@
                 </Grid>
             </TabItem>
             <!-- </ Trainers TAB > -->
-
 
             <!-- < Tariff TAB > -->
             <TabItem x:Name="TariffTab" Header="Тарифы" d:DataContext="{d:DesignInstance d:Type=local:TariffTabViewModel, IsDesignTimeCreatable=True}">
@@ -948,6 +943,77 @@
                 </Grid>
             </TabItem>
             <!-- </ AdditionalGroupTrainingTab TAB > -->
+
+            <!-- < WorkShift TAB > -->
+            <TabItem x:Name="WorkShiftTab" Header="Рабочие смены" d:DataContext="{d:DesignInstance d:Type=local:WorkShiftTabViewModel, IsDesignTimeCreatable=True}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid Grid.Column="0" x:Name="WorkShiftGrid" ItemsSource="{Binding Context.WorkShifts.Local}" SelectedItem="{Binding SelectedWorkShift, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№" Binding="{Binding WorkShiftId}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="День недели" Binding="{Binding DayOfWeek}"/>
+                            <DataGridTextColumn Header="Начало" Binding="{Binding StartHour}"/>
+                            <DataGridTextColumn Header="Конец" Binding="{Binding EndHour}"/>
+                        </DataGrid.Columns>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding WorkShiftGridSelectionChangedCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </DataGrid>
+
+                    <Border Grid.Column="1" BorderThickness="1" Margin="50" CornerRadius="10" BorderBrush="LightBlue">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- < WorkShift CRUD > -->
+                            <Expander Grid.Row="0"  Header="Редактирование" IsExpanded="True">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=WorkShiftGrid, Path=Columns[1].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,4.8,4.6" Text="{Binding ElementName=WorkShiftGrid, Path=Columns[2].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=WorkShiftGrid, Path=Columns[3].Header, StringFormat={}{0}:}"/>
+                                    
+                                    <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding DayOfWeekRussians}" SelectedItem="{Binding WorkShiftInfo.DayOfWeek}" />
+                                    <toolkit:TimePicker Grid.Row="1" Grid.Column="1" DefaultValue="7:00"  Text="{Binding WorkShiftInfo.StartHour, Mode=TwoWay}" />
+                                    <toolkit:TimePicker Grid.Row="2" Grid.Column="1" DefaultValue="22:00"  Text="{Binding WorkShiftInfo.EndHour, Mode=TwoWay}" />
+                                    <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="30,10,0,0" Orientation="Horizontal" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid, Mode=FindAncestor}, Path=ActualWidth}">
+                                        <Button Margin="7" Padding="10,2,10,2" Content="Добавить" Command="{Binding AddWorkShiftCommand}"/>
+                                        <Button Margin="7" Padding="10,2,10,2" Content="Изменить" Command="{Binding UpdateWorkShiftCommand}"/>
+                                        <Button Margin="7" Padding="10,2,10,2" Content="Удалить" Command="{Binding DeleteWorkShiftCommand}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Expander>
+
+                            <!-- < WorkShift Filter > -->
+                            <Expander Grid.Row="1"  Header="Фильтры" IsEnabled="False">
+
+                            </Expander>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <!-- </ Training TAB > -->
         </TabControl>
     </Grid>
 </Window>

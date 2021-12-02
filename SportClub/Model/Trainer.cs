@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using SportClub.Annotations;
@@ -15,7 +12,7 @@ namespace SportClub.Model
         private string _lastName;
         private string _firstName;
         private DateTime? _birthDate;
-        private string _gender;
+        private Genders _gender;
         private string _phoneNumber;
         private string _email;
         private DateTime _applyDate;
@@ -72,7 +69,7 @@ namespace SportClub.Model
             }
         }
 
-        public string Gender
+        public Genders Gender
         {
             get => _gender;
             set

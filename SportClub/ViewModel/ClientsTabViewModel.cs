@@ -20,21 +20,12 @@ namespace SportClub.ViewModel
         private IList<Client> _filteredClientList;
         private IList<Training> _trainingsList;
 
-
-        private static readonly List<string> _genderTypes = new List<string> {
-            "Мужской",
-            "Женский",
-            "Другой",
-        };
-
         public SportClubContext Context { get; }
-        public Client ClientInfo { get; set; } = new Client() { RegistrationDate = DateTime.Now};
-        public Client ClientFilter { get; set; } = new Client();
+        public Client ClientInfo { get; set; } = new Client() { RegistrationDate = DateTime.Now };
+        public Client ClientFilter { get; set; } = new Client() { Gender = Model.Genders.Не_Выбрано};
         public Client SelectedClient { get; set; }
 
-        public List<string> GenderTypes { get => _genderTypes; }
-
-
+        public Array Genders { get => Enum.GetValues(typeof(Genders)); }
 
         public IList<Client> FilteredClientList
         {
@@ -158,7 +149,7 @@ namespace SportClub.ViewModel
                         tuple.Item2.Text = string.Empty;
                         tuple.Item3.Text = string.Empty;
                         tuple.Item4.SelectedDate = null;
-                        tuple.Item5.SelectedIndex = -1;
+                        tuple.Item5.SelectedIndex = 0;
                         tuple.Item6.Text = string.Empty;
                         tuple.Item7.Text = string.Empty;
                     }
@@ -188,8 +179,7 @@ namespace SportClub.ViewModel
             (_clientsGridSelectionChangedCommand =
                 new RelayCommand(
                     () =>
-                    {
-
+                    { 
                         ClientInfo.FirstName = SelectedClient.FirstName;
                         ClientInfo.LastName = SelectedClient.LastName;
                         ClientInfo.BirthDate = SelectedClient.BirthDate;
@@ -222,7 +212,7 @@ namespace SportClub.ViewModel
                     {
                         queryResult = queryResult.Where(client => client.BirthDate != null && client.BirthDate == ClientFilter.BirthDate);
                     }
-                    if (!string.IsNullOrEmpty(ClientFilter.Gender) && ClientFilter.Gender != "-1")
+                    if (ClientFilter.Gender != 0)
                     {
                         queryResult = queryResult.Where(client => client.Gender.Equals(ClientFilter.Gender));
                     }

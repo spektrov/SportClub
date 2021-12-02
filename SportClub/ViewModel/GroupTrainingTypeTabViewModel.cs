@@ -51,6 +51,8 @@ namespace SportClub.ViewModel
                 () =>
                 {
                     SelectedGroupTrainingType.GroupTrainingTypeName = GroupTrainingTypeInfo.GroupTrainingTypeName;
+
+                    Context.SaveChanges();
                 },
                 () =>
                 {

@@ -88,6 +88,21 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=4.1.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.4.1.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -110,9 +125,18 @@
     <Compile Include="Migrations\202111272057091_Gender1.designer.cs">
       <DependentUpon>202111272057091_Gender1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202112021141501_GenderTypeEnum.cs" />
+    <Compile Include="Migrations\202112021141501_GenderTypeEnum.designer.cs">
+      <DependentUpon>202112021141501_GenderTypeEnum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112021329090_TimeSpanWorkShift.cs" />
+    <Compile Include="Migrations\202112021329090_TimeSpanWorkShift.designer.cs">
+      <DependentUpon>202112021329090_TimeSpanWorkShift.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Miscellaneous\ClientDocument.cs" />
     <Compile Include="Miscellaneous\EmailSender.cs" />
+    <Compile Include="Model\Enums.cs" />
     <Compile Include="Miscellaneous\TrainerDocument.cs" />
     <Compile Include="Miscellaneous\XamlConverters.cs" />
     <Compile Include="Model\Schedule.cs" />
@@ -187,6 +211,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202111272057091_Gender1.resx">
       <DependentUpon>202111272057091_Gender1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112021141501_GenderTypeEnum.resx">
+      <DependentUpon>202112021141501_GenderTypeEnum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112021329090_TimeSpanWorkShift.resx">
+      <DependentUpon>202112021329090_TimeSpanWorkShift.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

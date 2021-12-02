@@ -65,6 +65,8 @@ namespace SportClub.ViewModel
                    SelectedTariff.GroupTraining = TariffInfo.GroupTraining;
                    SelectedTariff.Duration = TariffInfo.Duration;
                    SelectedTariff.AdditionalInformation = TariffInfo.AdditionalInformation;
+
+                   Context.SaveChanges();
                },
                () =>
                {
