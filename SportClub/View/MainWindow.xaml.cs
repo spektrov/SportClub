@@ -35,6 +35,9 @@ namespace SportClub.View
             RoomsTab.DataContext = new RoomsTabViewModel(Context);
             WorkShiftTab.DataContext = new WorkShiftTabViewModel(Context);
             ScheduleTab.DataContext = new ScheduleTabViewModel(Context);
+            PersonalTrainingTab.DataContext = new PersonalTrainingTabViewModel(Context);
+            GroupTrainingsTab.DataContext = new GroupTrainingTabViewModel(Context);
+            TrainingInGroupTab.DataContext = new TrainingInGroupTabViewModel(Context);
         }
 
         private void SQLquery_Click(object sender, RoutedEventArgs e)

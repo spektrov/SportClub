@@ -137,6 +137,14 @@
     <Compile Include="Migrations\202112021622118_ChangeAllKeysToId.designer.cs">
       <DependentUpon>202112021622118_ChangeAllKeysToId.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202112021734523_PersonalTrainings.cs" />
+    <Compile Include="Migrations\202112021734523_PersonalTrainings.designer.cs">
+      <DependentUpon>202112021734523_PersonalTrainings.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112021916249_returnDateTimeInsteadTimeSpan.cs" />
+    <Compile Include="Migrations\202112021916249_returnDateTimeInsteadTimeSpan.designer.cs">
+      <DependentUpon>202112021916249_returnDateTimeInsteadTimeSpan.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Miscellaneous\ClientDocument.cs" />
     <Compile Include="Miscellaneous\EmailSender.cs" />
@@ -228,6 +236,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202112021622118_ChangeAllKeysToId.resx">
       <DependentUpon>202112021622118_ChangeAllKeysToId.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112021734523_PersonalTrainings.resx">
+      <DependentUpon>202112021734523_PersonalTrainings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112021916249_returnDateTimeInsteadTimeSpan.resx">
+      <DependentUpon>202112021916249_returnDateTimeInsteadTimeSpan.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

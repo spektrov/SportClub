@@ -10,8 +10,8 @@ namespace SportClub.Model
     {
         private int _workShiftId;
         private DayOfWeekRussian _dayOfWeek;
-        private TimeSpan _startHour;
-        private TimeSpan _endHour;
+        private DateTime _startHour;
+        private DateTime _endHour;
         private IList<Schedule> _schedules;
 
         public int WorkShiftId
@@ -36,7 +36,7 @@ namespace SportClub.Model
             }
         }
 
-        public TimeSpan StartHour
+        public DateTime StartHour
         {
             get => _startHour;
             set
@@ -47,7 +47,7 @@ namespace SportClub.Model
             }
         }
 
-        public TimeSpan EndHour
+        public DateTime EndHour
         {
             get => _endHour;
             set

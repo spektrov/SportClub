@@ -14,7 +14,7 @@ namespace SportClub.SportClubDbContext
         {
             HasKey(training => training.PersonalTrainingId);
             HasRequired(training => training.Client).WithMany(client => client.PersonalTrainings).HasForeignKey(t => t.ClientId).WillCascadeOnDelete(true);
-            HasRequired(training => training.Client).WithMany(trainer => trainer.PersonalTrainings).HasForeignKey(t => t.TrainerId).WillCascadeOnDelete(true);
+            HasRequired(training => training.Trainer).WithMany(trainer => trainer.PersonalTrainings).HasForeignKey(t => t.TrainerId).WillCascadeOnDelete(true);
             Property(training => training.TrainingDate).HasColumnType("datetime2").IsRequired();
             Property(training => training.StartTime).HasColumnType("datetime2").IsRequired();
 

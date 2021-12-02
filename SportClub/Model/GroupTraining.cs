@@ -145,5 +145,11 @@ namespace SportClub.Model
         {
             _trainingInGroups = new List<TrainingInGroup>();
         }
+
+        public override string ToString()
+        {
+            return Date.Day.ToString() + "." + Date.Month.ToString() + " "
+                + StartTime.Hour.ToString() + ":" + StartTime.Minute.ToString() + " " + GroupTrainingType.GroupTrainingTypeName;
+        }
     }
 }

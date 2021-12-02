@@ -956,8 +956,8 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="№" Binding="{Binding WorkShiftId}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="День недели" Binding="{Binding DayOfWeek}"/>
-                            <DataGridTextColumn Header="Начало" Binding="{Binding StartHour}"/>
-                            <DataGridTextColumn Header="Конец" Binding="{Binding EndHour}"/>
+                            <DataGridTextColumn Header="Начало" Binding="{Binding StartHour, StringFormat=\{0:HH mm\}}" />
+                            <DataGridTextColumn Header="Конец" Binding="{Binding EndHour, StringFormat=\{0:HH mm\}}"/>
                         </DataGrid.Columns>
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
@@ -995,8 +995,8 @@
                                     <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=WorkShiftGrid, Path=Columns[3].Header, StringFormat={}{0}:}"/>
                                     
                                     <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding DayOfWeekRussians}" SelectedItem="{Binding WorkShiftInfo.DayOfWeek}" />
-                                    <toolkit:TimePicker Grid.Row="1" Grid.Column="1" DefaultValue="7:00"  Text="{Binding WorkShiftInfo.StartHour, Mode=TwoWay}" />
-                                    <toolkit:TimePicker Grid.Row="2" Grid.Column="1" DefaultValue="22:00"  Text="{Binding WorkShiftInfo.EndHour, Mode=TwoWay}" />
+                                    <toolkit:TimePicker Grid.Row="1" Grid.Column="1" Value="{Binding WorkShiftInfo.StartHour}" Text="{Binding WorkShiftInfo.StartHour, Mode=TwoWay}" />
+                                    <toolkit:TimePicker Grid.Row="2" Grid.Column="1" Value="{Binding WorkShiftInfo.EndHour}" Text="{Binding WorkShiftInfo.EndHour, Mode=TwoWay}" />
                                     <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="30,10,0,0" Orientation="Horizontal" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid, Mode=FindAncestor}, Path=ActualWidth}">
                                         <Button Margin="7" Padding="10,2,10,2" Content="Добавить" Command="{Binding AddWorkShiftCommand}"/>
                                         <Button Margin="7" Padding="10,2,10,2" Content="Изменить" Command="{Binding UpdateWorkShiftCommand}"/>
@@ -1013,7 +1013,7 @@
                     </Border>
                 </Grid>
             </TabItem>
-            <!-- </ Training TAB > -->
+            <!-- </ WorkShift TAB > -->
 
             <!-- < Schedule TAB > -->
             <TabItem x:Name="ScheduleTab" Header="Расписание" d:DataContext="{d:DesignInstance d:Type=local:ScheduleTabViewModel, IsDesignTimeCreatable=True}">
@@ -1132,7 +1132,384 @@
                     </Border>
                 </Grid>
             </TabItem>
-            <!-- </ Subscription TAB > -->
+            <!-- </ Schedule TAB > -->
+
+            <!-- < PersonalTraining TAB > -->
+            <TabItem x:Name="PersonalTrainingTab" Header="Персональные" d:DataContext="{d:DesignInstance d:Type=local:PersonalTrainingTabViewModel, IsDesignTimeCreatable=True}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid Grid.Column="0" x:Name="PersonalTrainingsGrid" ItemsSource="{Binding Context.PersonalTrainings.Local}" SelectedItem="{Binding SelectedPersonalTraining, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№" Binding="{Binding PersonalTrainingId}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Клиент" Binding="{Binding Client.ClientId}"/>
+                            <DataGridTextColumn Header="Тренер" Binding="{Binding Trainer.TrainerId}"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding TrainingDate, StringFormat=\{0:dd MM yyyy\}}"/>
+                            <DataGridTextColumn Header="Время" Binding="{Binding StartTime, StringFormat=\{0:HH mm\}}"/>
+                        </DataGrid.Columns>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding PersonalTrainingsGridSelectionChangedCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </DataGrid>
+
+                    <Border Grid.Column="1" BorderThickness="1" Margin="50" CornerRadius="10" BorderBrush="LightBlue">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- < PersonalTraining CRUD > -->
+                            <Expander Grid.Row="0"  Header="Редактирование" IsExpanded="True">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=PersonalTrainingsGrid, Path=Columns[1].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="5,5,4.8,4.6" Text="{Binding ElementName=PersonalTrainingsGrid, Path=Columns[2].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="5,5,4.8,4.6" Text="{Binding ElementName=PersonalTrainingsGrid, Path=Columns[3].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="5" Grid.Column="0" Margin="5,5,4.8,4.6" Text="{Binding ElementName=PersonalTrainingsGrid, Path=Columns[4].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="3" Margin="5,5,4.8,5" >
+                                        <Run Text="№ " />
+                                        <Run Text="{Binding PersonalTrainingInfo.Client.ClientId}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding PersonalTrainingInfo.Client.FirstName}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding PersonalTrainingInfo.Client.LastName}" />
+                                    </TextBlock>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Margin="5,5,4.8,5" >
+                                        <Run Text="№ " />
+                                        <Run Text="{Binding PersonalTrainingInfo.Trainer.TrainerId}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding PersonalTrainingInfo.Trainer.FirstName}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding PersonalTrainingInfo.Trainer.LastName}" />
+                                    </TextBlock>
+
+                                    <local:FilteredComboBox Grid.Row="1" Grid.Column="3" ItemsSource="{Binding Context.Clients.Local}"
+                                            SelectedItem="{Binding PersonalTrainingInfo.Client}"
+                                            IsEditable="True"
+                                            IsTextSearchEnabled="False"
+                                            StaysOpenOnEdit="True">
+                                        <local:FilteredComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                            </ItemsPanelTemplate>
+                                        </local:FilteredComboBox.ItemsPanel>
+                                    </local:FilteredComboBox>
+                                    
+                                    <local:FilteredComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Context.Trainers.Local}"
+                                            SelectedItem="{Binding PersonalTrainingInfo.Trainer}"
+                                            IsEditable="True"
+                                            IsTextSearchEnabled="False"
+                                            StaysOpenOnEdit="True">
+                                        <local:FilteredComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                            </ItemsPanelTemplate>
+                                        </local:FilteredComboBox.ItemsPanel>
+                                    </local:FilteredComboBox>
+
+                                    <DatePicker Grid.Row="4" Grid.Column="1" Margin="3.2,3,2.6,3.6" DisplayDateStart="{x:Static local:DtHelper.ClientStartDate}" DisplayDateEnd="{x:Static sys:DateTime.Now}"
+                                                SelectedDate="{Binding PersonalTrainingInfo.TrainingDate, Mode=TwoWay}">
+                                        <DatePicker.BlackoutDates>
+                                            <CalendarDateRange Start="{x:Static sys:DateTime.MinValue}" End="{x:Static local:DtHelper.ClientStartDate}"/>
+                                        </DatePicker.BlackoutDates>
+                                    </DatePicker>
+                                    <DatePicker Grid.Row="5" Grid.Column="1" Margin="3.2,3,2.6,3.6" DisplayDateStart="{x:Static local:DtHelper.ClientStartDate}" DisplayDateEnd="{x:Static sys:DateTime.Now}"
+                                                SelectedDate="{Binding TrainingInfo.TrainingDate, Mode=TwoWay}">
+                                        <DatePicker.BlackoutDates>
+                                            <CalendarDateRange Start="{x:Static sys:DateTime.MinValue}" End="{x:Static local:DtHelper.ClientStartDate}"/>
+                                        </DatePicker.BlackoutDates>
+                                    </DatePicker>
+
+                                    <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,9.4,-10.4,10.4" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid, Mode=FindAncestor}, Path=ActualWidth}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="2*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="7" Padding="10,2,10,2" Content="Добавить" Command="{Binding AddPersonalTrainingCommand}"/>
+                                        <Button Grid.Row="1" Grid.Column="0" Margin="7" Padding="10,2,10,2" Content="Изменить" Command="{Binding UpdatePersonalTrainingCommand}"/>
+                                        <Button Grid.Row="1" Grid.Column="1" Margin="7" Padding="10,2,10,2" Content="Удалить" Command="{Binding DeletePersonalTrainingCommand}"/>
+                                    </Grid>
+                                </Grid>
+                            </Expander>
+
+                            <!-- < PersonalTraining Filter > -->
+                            <Expander Grid.Row="1"  Header="Фильтры" IsEnabled="False">
+
+                            </Expander>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <!-- </ PersonalTraining TAB > -->
+
+            <!-- < GroupTraining TAB > -->
+            <TabItem x:Name="GroupTrainingsTab" Header="Групповые" d:DataContext="{d:DesignInstance d:Type=local:GroupTrainingTabViewModel, IsDesignTimeCreatable=True}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="3*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid Grid.Column="0" x:Name="GroupTrainingsGrid" ItemsSource="{Binding Context.GroupTrainings.Local}" SelectedItem="{Binding SelectedGroupTraining, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="№" Binding="{Binding GroupTrainingId}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Название" Binding="{Binding GroupTrainingType.GroupTrainingTypeName}"/>
+                            <DataGridTextColumn Header="Тренер" Binding="{Binding Trainer.TrainerId}"/>
+                            <DataGridTextColumn Header="Зал" Binding="{Binding Room.RoomName}"/>
+                            <DataGridTextColumn Header="Дата" Binding="{Binding Date, StringFormat=\{0:dd MM yyyy\}}"/>
+                            <DataGridTextColumn Header="Время" Binding="{Binding StartTime, StringFormat=\{0:HH mm\}}"/>
+                        </DataGrid.Columns>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding GroupTrainingGridSelectionChangedCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </DataGrid>
+
+                    <Border Grid.Column="1" BorderThickness="1" Margin="50" CornerRadius="10" BorderBrush="LightBlue">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- < GroupTraining CRUD > -->
+                            <Expander Grid.Row="0"  Header="Редактирование" IsExpanded="True">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=GroupTrainingsGrid, Path=Columns[2].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,4.8,4.6" Text="{Binding ElementName=GroupTrainingsGrid, Path=Columns[1].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="5,5,4.8,4.6" Text="{Binding ElementName=GroupTrainingsGrid, Path=Columns[3].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="4" Grid.Column="0" Margin="5,5,4.8,4.6" Text="{Binding ElementName=GroupTrainingsGrid, Path=Columns[4].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="5" Grid.Column="0" Margin="5,5,4.8,4.6" Text="{Binding ElementName=GroupTrainingsGrid, Path=Columns[5].Header, StringFormat={}{0}:}"/>
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="5,5,4.8,5" >
+                                        <Run Text="№ " />
+                                        <Run Text="{Binding GroupTrainingInfo.Trainer.TrainerId}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding GroupTrainingInfo.Trainer.FirstName}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding GroupTrainingInfo.Trainer.LastName}" />
+                                    </TextBlock>
+
+                                    <local:FilteredComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Context.Trainers.Local}"
+                                            SelectedItem="{Binding GroupTrainingInfo.Trainer}"
+                                            IsEditable="True"
+                                            IsTextSearchEnabled="False"
+                                            StaysOpenOnEdit="True">
+                                        <local:FilteredComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                            </ItemsPanelTemplate>
+                                        </local:FilteredComboBox.ItemsPanel>
+                                    </local:FilteredComboBox>
+
+                                    <local:FilteredComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Context.GroupTrainingTypes.Local}"
+                                            SelectedItem="{Binding GroupTrainingInfo.GroupTrainingType}"
+                                            IsEditable="True"
+                                            IsTextSearchEnabled="False"
+                                            StaysOpenOnEdit="True">
+                                        <local:FilteredComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                            </ItemsPanelTemplate>
+                                        </local:FilteredComboBox.ItemsPanel>
+                                    </local:FilteredComboBox>
+
+                                    <local:FilteredComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Context.Rooms.Local}"
+                                            SelectedItem="{Binding GroupTrainingInfo.Room}"
+                                            IsEditable="True"
+                                            IsTextSearchEnabled="False"
+                                            StaysOpenOnEdit="True">
+                                        <local:FilteredComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                            </ItemsPanelTemplate>
+                                        </local:FilteredComboBox.ItemsPanel>
+                                    </local:FilteredComboBox>
+
+                                    <DatePicker Grid.Row="4" Grid.Column="1" Margin="3.2,3,2.6,3.6" DisplayDateStart="{x:Static local:DtHelper.ClientStartDate}" DisplayDateEnd="{x:Static sys:DateTime.Now}"
+                                                SelectedDate="{Binding GroupTrainingInfo.Date, Mode=TwoWay}">
+                                        <DatePicker.BlackoutDates>
+                                            <CalendarDateRange Start="{x:Static sys:DateTime.MinValue}" End="{x:Static local:DtHelper.ClientStartDate}"/>
+                                        </DatePicker.BlackoutDates>
+                                    </DatePicker>
+                                    <toolkit:TimePicker Grid.Row="5" Grid.Column="1" Value="{Binding GroupTrainingInfo.StartTime}" Text="{Binding GroupTrainingInfo.StartTime, Mode=TwoWay}" />
+
+                                    <Grid Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,9.4,-10.4,10.4" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid, Mode=FindAncestor}, Path=ActualWidth}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="2*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="7" Padding="10,2,10,2" Content="Добавить" Command="{Binding AddGroupTrainingCommand}"/>
+                                        <Button Grid.Row="1" Grid.Column="0" Margin="7" Padding="10,2,10,2" Content="Изменить" Command="{Binding UpdateGroupTrainingCommand}"/>
+                                        <Button Grid.Row="1" Grid.Column="1" Margin="7" Padding="10,2,10,2" Content="Удалить" Command="{Binding DeleteGroupTrainingCommand}"/>
+                                    </Grid>
+                                </Grid>
+                            </Expander>
+
+                            <!-- < GroupTraining Filter > -->
+                            <Expander Grid.Row="1"  Header="Фильтры" IsEnabled="False">
+
+                            </Expander>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <!-- </ GroupTraining TAB > -->
+
+            <!-- < TrainingInGroup TAB > -->
+            <TabItem x:Name="TrainingInGroupTab" Header="Запись на групповые" d:DataContext="{d:DesignInstance d:Type=local:TrainingInGroupTabViewModel, IsDesignTimeCreatable=True}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid Grid.Column="0" x:Name="TrainingInGroupGrid" ItemsSource="{Binding Context.TrainingInGroups.Local}" SelectedItem="{Binding SelectedTrainingInGroup, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Клиент" Binding="{Binding Client.ClientId}" />
+                            <DataGridTextColumn Header="Групповая тренировка" Binding="{Binding GroupTraining.GroupTrainingId}" />
+                        </DataGrid.Columns>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding TrainingInGroupGridSelectionChangedCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </DataGrid>
+
+                    <Border Grid.Column="1" BorderThickness="1" Margin="50" CornerRadius="10" BorderBrush="LightBlue">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- < TrainingInGroup CRUD > -->
+                            <Expander Grid.Row="0"  Header="Редактирование" IsExpanded="True">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=TrainingInGroupGrid, Path=Columns[0].Header, StringFormat={}{0}:}" />
+                                    <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=TrainingInGroupGrid, Path=Columns[1].Header, StringFormat={}{0}:}" />
+
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="5,5,4.8,5" >
+                                        <Run Text="№ " />
+                                        <Run Text="{Binding TrainingInGroupInfo.Client.ClientId}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding TrainingInGroupInfo.Client.FirstName}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding TrainingInGroupInfo.Client.LastName}" />
+                                    </TextBlock>
+
+                                    <local:FilteredComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Context.Clients.Local}"
+                                            SelectedItem="{Binding TrainingInGroupInfo.Client}"
+                                            IsEditable="True"
+                                            IsTextSearchEnabled="False" 
+                                            StaysOpenOnEdit="True">
+                                        <local:FilteredComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                            </ItemsPanelTemplate>
+                                        </local:FilteredComboBox.ItemsPanel>
+                                    </local:FilteredComboBox>
+
+                                    <local:FilteredComboBox Grid.Row="2" Grid.Column="1" ItemsSource="{Binding Context.GroupTrainings.Local}"
+                                            SelectedItem="{Binding TrainingInGroupInfo.GroupTraining}"
+                                            IsEditable="True"
+                                            IsTextSearchEnabled="False" 
+                                            StaysOpenOnEdit="True">
+                                        <local:FilteredComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                            </ItemsPanelTemplate>
+                                        </local:FilteredComboBox.ItemsPanel>
+                                    </local:FilteredComboBox>
+
+                                    <Grid Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="4" Margin="10,9.4,-10.4,10.4" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid, Mode=FindAncestor}, Path=ActualWidth}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="2*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="7" Padding="10,2,10,2" Content="Добавить" Command="{Binding AddTrainingInGroupCommand}"/>
+                                        <Button Grid.Row="1" Grid.Column="0" Margin="7" Padding="10,2,10,2" Content="Обновить" Command="{Binding UpdateTrainingInGroupCommand}"/>
+                                        <Button Grid.Row="1" Grid.Column="1" Margin="7" Padding="10,2,10,2" Content="Удалить" Command="{Binding DeleteTrainingInGroupCommand}"/>
+                                    </Grid>
+                                </Grid>
+                            </Expander>
+
+                            <!-- < TrainingInGroup Filter > -->
+                            <Expander Grid.Row="1"  Header="" IsEnabled="False">
+                                
+                            </Expander>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <!-- </ TrainingInGroup TAB > -->
         </TabControl>
     </Grid>
 </Window>

@@ -9,8 +9,8 @@ namespace SportClub.SportClubDbContext
         {
             HasKey(shift => shift.WorkShiftId);
             Property(shift => shift.DayOfWeek).IsRequired();
-            Property(shift => shift.StartHour).IsRequired();
-            Property(shift => shift.EndHour).IsRequired();
+            Property(shift => shift.StartHour).HasColumnType("datetime2").IsRequired();
+            Property(shift => shift.EndHour).HasColumnType("datetime2").IsRequired();
 
             ToTable("WorkShifts");
         }
