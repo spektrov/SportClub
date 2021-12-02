@@ -31,6 +31,8 @@ namespace SportClub.View
             TariffTab.DataContext = new TariffTabViewModel(Context);
             TrainingTab.DataContext = new TrainingTabViewModel(Context);
             SubscriptionTab.DataContext = new SubscriptionsTabViewModel(Context);
+            GroupTrainingTypeTab.DataContext = new GroupTrainingTypeTabViewModel(Context);
+            RoomsTab.DataContext = new RoomsTabViewModel(Context);
         }
 
         private void SQLquery_Click(object sender, RoutedEventArgs e)

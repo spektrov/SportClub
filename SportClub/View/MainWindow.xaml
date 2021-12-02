@@ -678,7 +678,7 @@
                                     <local:FilteredComboBox Grid.Row="1" Grid.Column="3" ItemsSource="{Binding Context.Clients.Local}"
                                             SelectedItem="{Binding TrainingInfo.Client}"
                                             IsEditable="True"
-                                            IsTextSearchEnabled="False" 
+                                            IsTextSearchEnabled="False"
                                             StaysOpenOnEdit="True">
                                         <local:FilteredComboBox.ItemsPanel>
                                             <ItemsPanelTemplate>
@@ -721,7 +721,7 @@
             <!-- </ Training TAB > -->
 
             <!-- < Subscription TAB > -->
-            <TabItem x:Name="SubscriptionTab" Header="Абонименты" d:DataContext="{d:DesignInstance d:Type=local:SubscriptionsTabViewModel, IsDesignTimeCreatable=True}">
+            <TabItem x:Name="SubscriptionTab" Header="Абонeменты" d:DataContext="{d:DesignInstance d:Type=local:SubscriptionsTabViewModel, IsDesignTimeCreatable=True}">
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="3*"/>
@@ -849,6 +849,105 @@
                 </Grid>
             </TabItem>
             <!-- </ Subscription TAB > -->
+
+            <!-- < AdditionalGroupTraining TAB > -->
+            <TabItem x:Name="AdditionalGroupTrainingTab" Header="Инфо групповые">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition />
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+
+                    <Grid x:Name="GroupTrainingTypeTab" Grid.Row="0" d:DataContext="{d:DesignInstance d:Type=local:GroupTrainingTypeTabViewModel, IsDesignTimeCreatable=True}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <DataGrid Grid.Column="0" x:Name="GroupTrainingTypeGrid" ItemsSource="{Binding Context.GroupTrainingTypes.Local}" SelectedItem="{Binding SelectedGroupTrainingType, Mode=TwoWay}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="№" Binding="{Binding GroupTrainingTypeId}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Название тренировки" Binding="{Binding GroupTrainingTypeName}"/>
+                            </DataGrid.Columns>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding GroupTrainingTypeGridSelectionChangedCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </DataGrid>
+
+                        <Border Grid.Row="0" Grid.Column="1" BorderThickness="1" Margin="50" CornerRadius="10" BorderBrush="LightBlue">
+                            <!-- < GroupTrainingType CRUD > -->
+                            <Expander  Header="Редактирование" IsExpanded="True">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="2*"/>
+                                        <ColumnDefinition Width="5*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" Text="{Binding ElementName=GroupTrainingTypeGrid, Path=Columns[1].Header, StringFormat={}{0}:}"/>
+                                    <TextBox Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding GroupTrainingTypeInfo.GroupTrainingTypeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                    <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="30,10,0,0" Orientation="Horizontal" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid, Mode=FindAncestor}, Path=ActualWidth}">
+                                        <Button Margin="7" Padding="10,2,10,2" Content="Добавить" Command="{Binding AddGroupTrainingTypeCommand}"/>
+                                        <Button Margin="7" Padding="10,2,10,2" Content="Изменить" Command="{Binding UpdateGroupTrainingTypeCommand}"/>
+                                        <Button Margin="7" Padding="10,2,10,2" Content="Удалить" Command="{Binding DeleteGroupTrainingTypeCommand}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Expander>
+                        </Border>
+                    </Grid>
+
+                    <Grid x:Name="RoomsTab" Grid.Row="1" d:DataContext="{d:DesignInstance d:Type=local:RoomsTabViewModel, IsDesignTimeCreatable=True}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <DataGrid Grid.Column="0" x:Name="RoomsGrid" ItemsSource="{Binding Context.Rooms.Local}" SelectedItem="{Binding SelectedRoom, Mode=TwoWay}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="№" Binding="{Binding RoomId}" IsReadOnly="True"/>
+                                <DataGridTextColumn Header="Название зала" Binding="{Binding RoomName}"/>
+                            </DataGrid.Columns>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="SelectionChanged">
+                                    <i:InvokeCommandAction Command="{Binding RoomGridSelectionChangedCommand}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </DataGrid>
+
+                        <Border Grid.Row="0" Grid.Column="1" BorderThickness="1" Margin="50" CornerRadius="10" BorderBrush="LightBlue">
+                            <!-- < Room CRUD > -->
+                            <Expander  Header="Редактирование" IsExpanded="True">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="3*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="5" Text="{Binding ElementName=RoomsGrid, Path=Columns[1].Header, StringFormat={}{0}:}"/>
+                                    <TextBox Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding RoomInfo.RoomName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                    <StackPanel Grid.Row="6" Grid.Column="0" Grid.ColumnSpan="2" Margin="30,10,0,0" Orientation="Horizontal" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid, Mode=FindAncestor}, Path=ActualWidth}">
+                                        <Button Margin="7" Padding="10,2,10,2" Content="Добавить" Command="{Binding AddRoomCommand}"/>
+                                        <Button Margin="7" Padding="10,2,10,2" Content="Изменить" Command="{Binding UpdateRoomCommand}"/>
+                                        <Button Margin="7" Padding="10,2,10,2" Content="Удалить" Command="{Binding DeleteRoomCommand}"/>
+                                    </StackPanel>
+                                </Grid>
+                            </Expander>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <!-- </ AdditionalGroupTrainingTab TAB > -->
         </TabControl>
     </Grid>
 </Window>
