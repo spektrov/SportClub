@@ -20,6 +20,7 @@ namespace SportClub.Model
         private GroupTrainingType _groupTrainingType;
         private DateTime _date;
         private DateTime _startTime;
+        private int _maxAttenders;
 
         private IList<TrainingInGroup> _trainingInGroups;
 
@@ -118,6 +119,17 @@ namespace SportClub.Model
             {
                 if (value.Equals(_startTime)) return;
                 _startTime = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public int MaxAttenders
+        {
+            get => _maxAttenders;
+            set
+            {
+                if (value == _maxAttenders) return;
+                _maxAttenders = value;
                 OnPropertyChanged();
             }
         }

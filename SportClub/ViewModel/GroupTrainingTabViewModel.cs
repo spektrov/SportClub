@@ -39,7 +39,8 @@ namespace SportClub.ViewModel
                         Room = GroupTrainingInfo.Room,
                         GroupTrainingType = GroupTrainingInfo.GroupTrainingType,
                         Date = GroupTrainingInfo.Date,
-                        StartTime = GroupTrainingInfo.StartTime
+                        StartTime = GroupTrainingInfo.StartTime,
+                        MaxAttenders = GroupTrainingInfo.MaxAttenders
                     });
                     Context.SaveChanges();
                 },
@@ -50,6 +51,7 @@ namespace SportClub.ViewModel
                         || Equals(GroupTrainingInfo.GroupTrainingType, null)
                         || Equals(GroupTrainingInfo.Date, null)
                         || Equals(GroupTrainingInfo.StartTime, null)
+                        || GroupTrainingInfo.MaxAttenders <= 0
                         )
                     {
                         return false;
@@ -67,6 +69,7 @@ namespace SportClub.ViewModel
                     SelectedGroupTraining.GroupTrainingType = GroupTrainingInfo.GroupTrainingType;
                     SelectedGroupTraining.Date = GroupTrainingInfo.Date;
                     SelectedGroupTraining.StartTime = GroupTrainingInfo.StartTime;
+                    SelectedGroupTraining.MaxAttenders = GroupTrainingInfo.MaxAttenders;
                   
                     Context.SaveChanges();
                 },
@@ -78,6 +81,7 @@ namespace SportClub.ViewModel
                         || Equals(GroupTrainingInfo.GroupTrainingType, null)
                         || Equals(GroupTrainingInfo.Date, null)
                         || Equals(GroupTrainingInfo.StartTime, null)
+                        || GroupTrainingInfo.MaxAttenders <= 0
                         )
                     {
                         return false;
@@ -105,6 +109,7 @@ namespace SportClub.ViewModel
                    GroupTrainingInfo.GroupTrainingType = SelectedGroupTraining.GroupTrainingType;
                    GroupTrainingInfo.Date = SelectedGroupTraining.Date;
                    GroupTrainingInfo.StartTime = SelectedGroupTraining.StartTime;
+                   GroupTrainingInfo.MaxAttenders = SelectedGroupTraining.MaxAttenders;
                },
                () => SelectedGroupTraining != null));
     }

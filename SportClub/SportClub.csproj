@@ -145,6 +145,10 @@
     <Compile Include="Migrations\202112021916249_returnDateTimeInsteadTimeSpan.designer.cs">
       <DependentUpon>202112021916249_returnDateTimeInsteadTimeSpan.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202112022053191_AddMaxAttendersToGroupTrainings.cs" />
+    <Compile Include="Migrations\202112022053191_AddMaxAttendersToGroupTrainings.designer.cs">
+      <DependentUpon>202112022053191_AddMaxAttendersToGroupTrainings.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Miscellaneous\ClientDocument.cs" />
     <Compile Include="Miscellaneous\EmailSender.cs" />
@@ -242,6 +246,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202112021916249_returnDateTimeInsteadTimeSpan.resx">
       <DependentUpon>202112021916249_returnDateTimeInsteadTimeSpan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112022053191_AddMaxAttendersToGroupTrainings.resx">
+      <DependentUpon>202112022053191_AddMaxAttendersToGroupTrainings.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
