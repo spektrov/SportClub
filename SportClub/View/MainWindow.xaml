@@ -1014,6 +1014,125 @@
                 </Grid>
             </TabItem>
             <!-- </ Training TAB > -->
+
+            <!-- < Schedule TAB > -->
+            <TabItem x:Name="ScheduleTab" Header="Абонeменты" d:DataContext="{d:DesignInstance d:Type=local:ScheduleTabViewModel, IsDesignTimeCreatable=True}">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="4*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <DataGrid Grid.Column="0" x:Name="ScheduleGrid" ItemsSource="{Binding Context.Schedules.Local}" SelectedItem="{Binding SelectedSchedule, Mode=TwoWay}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Тренер" Binding="{Binding Trainer.TrainerId}" />
+                            <DataGridTextColumn Header="Рабочая смена" Binding="{Binding WorkShift.WorkShiftId}" />
+                        </DataGrid.Columns>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding ScheduleGridSelectionChangedCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </DataGrid>
+
+                    <Border Grid.Column="1" BorderThickness="1" Margin="50" CornerRadius="10" BorderBrush="LightBlue">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+
+                            <!-- < Subscription CRUD > -->
+                            <Expander Grid.Row="0"  Header="Редактирование" IsExpanded="True">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=ScheduleGrid, Path=Columns[0].Header, StringFormat={}{0}:}" />
+                                    <TextBlock Grid.Row="3" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=ScheduleGrid, Path=Columns[1].Header, StringFormat={}{0}:}" />
+                       
+                                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="5,5,4.8,5" >
+                                        <Run Text="№ " />
+                                        <Run Text="{Binding ScheduleInfo.Trainer.TrainerId}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding ScheduleInfo.Trainer.FirstName}" />
+                                    </TextBlock>
+                                    <TextBlock Grid.Row="2" Grid.Column="1" Margin="5,5,4.8,5" >
+                                        <Run Text="№ " />
+                                        <Run Text="{Binding ScheduleInfo.WorkShift.DayOfWeek}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding ScheduleInfo.WorkShift.StartHour}" />
+                                        <Run Text=" - " />
+                                        <Run Text="{Binding ScheduleInfo.WorkShift.EndHour}" />
+                                    </TextBlock>
+
+                                    <local:FilteredComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Context.Trainers.Local}"
+                                            SelectedItem="{Binding ScheduleInfo.Trainer}"
+                                            IsEditable="True"
+                                            IsTextSearchEnabled="False" 
+                                            StaysOpenOnEdit="True">
+                                        <local:FilteredComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                            </ItemsPanelTemplate>
+                                        </local:FilteredComboBox.ItemsPanel>
+                                    </local:FilteredComboBox>
+
+                                    <local:FilteredComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Context.WorkShifts.Local}"
+                                            SelectedItem="{Binding ScheduleInfo.WorkShift}"
+                                            IsEditable="True"
+                                            IsTextSearchEnabled="False" 
+                                            StaysOpenOnEdit="True">
+                                        <local:FilteredComboBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <VirtualizingStackPanel VirtualizationMode="Recycling" />
+                                            </ItemsPanelTemplate>
+                                        </local:FilteredComboBox.ItemsPanel>
+                                    </local:FilteredComboBox>
+
+                                    <Grid Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="4" Margin="10,9.4,-10.4,10.4" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid, Mode=FindAncestor}, Path=ActualWidth}">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="2*"/>
+                                            <RowDefinition Height="1*"/>
+                                        </Grid.RowDefinitions>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+                                        <Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="7" Padding="10,2,10,2" Content="Обновить" Command="{Binding UpdateScheduleCommand}"/>
+                                        <Button Grid.Row="1" Grid.Column="0" Margin="7" Padding="10,2,10,2" Content="Добавить" Command="{Binding AddScheduleCommand}"/>
+                                        <Button Grid.Row="1" Grid.Column="1" Margin="7" Padding="10,2,10,2" Content="Удалить" Command="{Binding DeleteScheduleCommand}"/>
+                                    </Grid>
+                                </Grid>
+                            </Expander>
+
+                            <!-- < Subscription Filter > -->
+                            <Expander Grid.Row="1"  Header="Тарифы">
+                                <DataGrid Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" ItemsSource="{Binding TrainingsList}" Margin="10,10.4,10.4,10.2">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Тренер" Binding="{Binding Trainer.TrainerId}" />
+                                        <DataGridTextColumn Header="Рабочая смена" Binding="{Binding WorkShift.WorkShiftId}" />
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Expander>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+            <!-- </ Subscription TAB > -->
         </TabControl>
     </Grid>
 </Window>

@@ -82,5 +82,10 @@ namespace SportClub.Model
         {
             _schedules = new List<Schedule>();
         }
+
+        public override string ToString()
+        {
+            return DayOfWeek.ToString() + " " + StartHour;
+        }
     }
 }

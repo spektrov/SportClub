@@ -11,10 +11,22 @@ namespace SportClub.Model
 {
     class Schedule : INotifyPropertyChanged
     {
+        private int _shceduleId;
         private int _trainerId;
         private Trainer _trainer;
         private int _workShiftId;
         private WorkShift _workShift;
+
+        public int ScheduleId
+        {
+            get => _shceduleId;
+            set
+            {
+                if (value == _shceduleId) return;
+                _shceduleId = value;
+                OnPropertyChanged();
+            }
+        }
 
         public int TrainerId
         {

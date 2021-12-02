@@ -133,6 +133,10 @@
     <Compile Include="Migrations\202112021329090_TimeSpanWorkShift.designer.cs">
       <DependentUpon>202112021329090_TimeSpanWorkShift.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202112021622118_ChangeAllKeysToId.cs" />
+    <Compile Include="Migrations\202112021622118_ChangeAllKeysToId.designer.cs">
+      <DependentUpon>202112021622118_ChangeAllKeysToId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Miscellaneous\ClientDocument.cs" />
     <Compile Include="Miscellaneous\EmailSender.cs" />
@@ -163,6 +167,7 @@
     <Compile Include="ViewModel\FilteredComboBox.cs" />
     <Compile Include="ViewModel\GroupTrainingTypeTabViewModel.cs" />
     <Compile Include="ViewModel\RoomsTabViewModel.cs" />
+    <Compile Include="ViewModel\ScheduleTabViewModel.cs" />
     <Compile Include="ViewModel\SubscriptionsTabViewModel.cs" />
     <Compile Include="ViewModel\TariffTabViewModel.cs" />
     <Compile Include="ViewModel\TopMenuViewModel.cs" />
@@ -217,6 +222,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202112021329090_TimeSpanWorkShift.resx">
       <DependentUpon>202112021329090_TimeSpanWorkShift.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112021622118_ChangeAllKeysToId.resx">
+      <DependentUpon>202112021622118_ChangeAllKeysToId.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

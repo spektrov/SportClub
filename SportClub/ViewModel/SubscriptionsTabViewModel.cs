@@ -104,6 +104,6 @@ namespace SportClub.ViewModel
                    SubscriptionInfo.BuyDate = SelectedSubscription.BuyDate;
                },
                () => SelectedSubscription != null));
-    }
 
+    } 
 }

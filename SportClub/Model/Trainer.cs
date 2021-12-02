@@ -203,5 +203,10 @@ namespace SportClub.Model
             _schedules = new List<Schedule>();
             _groupTrainings = new List<GroupTraining>();
         }
+
+        public override string ToString()
+        {
+            return TrainerId.ToString();
+        }
     }
 }

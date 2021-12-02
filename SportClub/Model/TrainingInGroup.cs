@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using SportClub.Annotations;
 
@@ -11,10 +6,22 @@ namespace SportClub.Model
 {
     class TrainingInGroup : INotifyPropertyChanged
     {
+        private int _trainingInGroupId;
         private int _clientId;
         private Client _client;
         private int _groupTrainingId;
         private GroupTraining _groupTraining;
+
+        public int TrainingInGroupId
+        {
+            get => _trainingInGroupId;
+            set
+            {
+                if (value == _trainingInGroupId) return;
+                _trainingInGroupId = value;
+                OnPropertyChanged();
+            }
+        }
 
         public int ClientId
         {
