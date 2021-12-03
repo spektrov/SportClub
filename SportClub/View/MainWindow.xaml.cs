@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using SportClub.SportClubDbContext;
 using SportClub.ViewModel;
-using SportClub.Model;
-using System.Linq;
+using SportClub.Miscellaneous;
+using System.Threading.Tasks;
 
 namespace SportClub.View
 {
@@ -25,7 +21,7 @@ namespace SportClub.View
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SportClubContext>());
            
             Context = new SportClubContext();
-          
+
             ClientsTab.DataContext = new ClientsTabViewModel(Context);
             TrainersTab.DataContext = new TrainersTabViewModel(Context);
             TariffTab.DataContext = new TariffTabViewModel(Context);
@@ -38,6 +34,9 @@ namespace SportClub.View
             PersonalTrainingTab.DataContext = new PersonalTrainingTabViewModel(Context);
             GroupTrainingsTab.DataContext = new GroupTrainingTabViewModel(Context);
             TrainingInGroupTab.DataContext = new TrainingInGroupTabViewModel(Context);
+
+            var notificationEmail = new SubscriptionNotificationEmail(Context);
+            Task.Run(() => notificationEmail.SendAllNotifications(3)).Wait();
         }
 
         private void SQLquery_Click(object sender, RoutedEventArgs e)

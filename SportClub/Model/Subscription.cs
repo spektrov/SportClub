@@ -8,6 +8,7 @@ namespace SportClub.Model
 {
     class Subscription : INotifyPropertyChanged
     {
+        private int _SubscriptionId;
         private int _clinetId;
         private int _tariffId;
         private int _visitLeft;
@@ -15,9 +16,21 @@ namespace SportClub.Model
         private int _groupTrainingLeft;
         private DateTime _buyDate;
         private DateTime _validityDate;
+        private bool _isNotified;
 
         private Client _client;
         private Tariff _tariff;
+
+        public int SubscriptionId
+        {
+            get => _SubscriptionId;
+            set
+            {
+                if (value == _SubscriptionId) return;
+                _SubscriptionId = value;
+                OnPropertyChanged();
+            }
+        }
 
         public int ClientId
         {
@@ -118,6 +131,16 @@ namespace SportClub.Model
             }
         }
 
+        public bool IsNotified
+        {
+            get => _isNotified;
+            set
+            {
+                if (value == _isNotified) return;
+                _isNotified = value;
+                OnPropertyChanged();
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 

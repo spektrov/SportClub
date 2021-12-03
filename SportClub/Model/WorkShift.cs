@@ -85,7 +85,7 @@ namespace SportClub.Model
 
         public override string ToString()
         {
-            return DayOfWeek.ToString() + " " + StartHour;
+            return DayOfWeek.ToString() + " " + StartHour.TimeOfDay;
         }
     }
 }

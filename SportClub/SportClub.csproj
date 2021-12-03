@@ -149,9 +149,18 @@
     <Compile Include="Migrations\202112022053191_AddMaxAttendersToGroupTrainings.designer.cs">
       <DependentUpon>202112022053191_AddMaxAttendersToGroupTrainings.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202112031006119_SubscriptionIsNotified.cs" />
+    <Compile Include="Migrations\202112031006119_SubscriptionIsNotified.designer.cs">
+      <DependentUpon>202112031006119_SubscriptionIsNotified.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202112032053477_AddPKSubscriptionId.cs" />
+    <Compile Include="Migrations\202112032053477_AddPKSubscriptionId.designer.cs">
+      <DependentUpon>202112032053477_AddPKSubscriptionId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Miscellaneous\ClientDocument.cs" />
     <Compile Include="Miscellaneous\EmailSender.cs" />
+    <Compile Include="Miscellaneous\SubscriptionNotificationEmail.cs" />
     <Compile Include="Model\Enums.cs" />
     <Compile Include="Miscellaneous\TrainerDocument.cs" />
     <Compile Include="Miscellaneous\XamlConverters.cs" />
@@ -249,6 +258,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202112022053191_AddMaxAttendersToGroupTrainings.resx">
       <DependentUpon>202112022053191_AddMaxAttendersToGroupTrainings.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112031006119_SubscriptionIsNotified.resx">
+      <DependentUpon>202112031006119_SubscriptionIsNotified.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202112032053477_AddPKSubscriptionId.resx">
+      <DependentUpon>202112032053477_AddPKSubscriptionId.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

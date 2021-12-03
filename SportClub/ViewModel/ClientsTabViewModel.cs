@@ -167,7 +167,6 @@ namespace SportClub.ViewModel
                             && string.IsNullOrEmpty(tuple.Item6.Text)
                             && string.IsNullOrEmpty(tuple.Item7.Text)
                             )
-
                             return false;
                         return true;
                     }
@@ -233,9 +232,10 @@ namespace SportClub.ViewModel
             new RelayCommand(() =>
            {
                IEnumerable<Training> trainings = Context.Trainings.Local;
-               trainings = trainings.Where(training => training.ClientId.Equals(SelectedClient.ClientId));
+               trainings = trainings.Where(training => training.ClientId.Equals(SelectedClient?.ClientId));
                TrainingsList = trainings?.ToList();
-           }));
+           },
+                () => SelectedClient != null));
 
         public ICommand SaveDocumentClient =>
             _saveDocumentClient ?? (_saveDocumentClient =

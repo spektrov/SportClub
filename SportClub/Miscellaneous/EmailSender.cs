@@ -1,7 +1,6 @@
-﻿using System;
-using System.Net;
+﻿using System.Net;
 using System.Net.Mail;
-
+using System.Threading.Tasks;
 
 namespace SportClub.Miscellaneous
 {
@@ -35,7 +34,7 @@ namespace SportClub.Miscellaneous
         }
 
 
-        public void SendEmail()
+        public async Task SendEmail()
         {
             if (!_valid) return;
 
@@ -47,6 +46,7 @@ namespace SportClub.Miscellaneous
             {
                 mailMessage.Subject = _subject;
                 mailMessage.Body = _body;
+                mailMessage.IsBodyHtml = true;
 
                 smtpClient.Host = "smtp.gmail.com";
                 smtpClient.Port = 587;
@@ -55,7 +55,7 @@ namespace SportClub.Miscellaneous
                 smtpClient.UseDefaultCredentials = false;
                 smtpClient.Credentials = new NetworkCredential(fromMailAddress.Address, "sportclub1=");
 
-                smtpClient.Send(mailMessage);
+                await smtpClient.SendMailAsync(mailMessage);
             }
         }
     }

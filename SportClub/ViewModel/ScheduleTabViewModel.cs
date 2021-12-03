@@ -48,6 +48,10 @@ namespace SportClub.ViewModel
                     {
                         return false;
                     }
+                    if (!OtherVerifies())
+                    {
+                        return false;
+                    }
                     return true;
                 }));
 
@@ -67,6 +71,10 @@ namespace SportClub.ViewModel
                     if (Equals(ScheduleInfo.Trainer, null)
                         || Equals(ScheduleInfo.WorkShift, null)
                         )
+                    {
+                        return false;
+                    }
+                    if (!OtherVerifies())
                     {
                         return false;
                     }
@@ -92,5 +100,15 @@ namespace SportClub.ViewModel
                    ScheduleInfo.WorkShift = SelectedSchedule.WorkShift;
                },
                () => SelectedSchedule != null));
+
+        public bool OtherVerifies()
+        {
+            var query1 = $"SELECT * FROM Schedule WHERE TrainerId = {ScheduleInfo.Trainer.TrainerId} " +
+                $"AND WorkShiftId = {ScheduleInfo.WorkShift.WorkShiftId}";
+
+            var schedules = Context.Schedules.SqlQuery(query1).ToListAsync();
+
+            return schedules.Result.Count < 1;
+        }
     }
 }

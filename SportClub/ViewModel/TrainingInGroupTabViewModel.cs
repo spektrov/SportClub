@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using SportClub.SportClubDbContext;
 using SportClub.Model;
+using System.Linq;
 
 namespace SportClub.ViewModel
 {
@@ -36,6 +37,13 @@ namespace SportClub.ViewModel
                         Client = TrainingInGroupInfo.Client,
                         GroupTraining = TrainingInGroupInfo.GroupTraining
                     });
+                    Context.Trainings.Add(new Training
+                    {
+                        Client = TrainingInGroupInfo.Client,
+                        TrainingDate = TrainingInGroupInfo.GroupTraining.Date
+                    });
+
+                    DecreaseTrainingCount();
                     Context.SaveChanges();
                 },
                 () =>
@@ -43,6 +51,10 @@ namespace SportClub.ViewModel
                     if (Equals(TrainingInGroupInfo.Client, null)
                         || Equals(TrainingInGroupInfo.GroupTraining, null)
                         )
+                    {
+                        return false;
+                    }
+                    if (!OtherVerifies())
                     {
                         return false;
                     }
@@ -68,6 +80,10 @@ namespace SportClub.ViewModel
                     {
                         return false;
                     }
+                    if (!OtherVerifies())
+                    {
+                        return false;
+                    }
                     return true;
                 }));
 
@@ -77,6 +93,11 @@ namespace SportClub.ViewModel
                () =>
                {
                    Context.TrainingInGroups.Remove(SelectedTrainingInGroup);
+
+                   var training = Context.Trainings.FirstOrDefault(t =>
+                   t.Client.ClientId == TrainingInGroupInfo.Client.ClientId && t.TrainingDate == TrainingInGroupInfo.GroupTraining.Date);
+                   Context.Trainings.Remove(training);
+
                    Context.SaveChanges();
                },
                () => SelectedTrainingInGroup != null));
@@ -90,5 +111,33 @@ namespace SportClub.ViewModel
                    TrainingInGroupInfo.GroupTraining = SelectedTrainingInGroup.GroupTraining;
                },
                () => SelectedTrainingInGroup != null));
+
+        public bool OtherVerifies()
+        {
+            var query1 = $"SELECT * FROM Subscriptions " +
+                $" WHERE ClientId = {TrainingInGroupInfo.Client.ClientId}" +
+                $" AND ValidityDate >= GETDATE()" +
+                $" AND VisitLeft > 0 " +
+                $"AND GroupTrainingLeft > 0;";
+            var subscriptions = Context.Subscriptions.SqlQuery(query1).ToList();
+
+            var query2 = $"SELECT * FROM GroupTraining WHERE GroupTrainingId = {TrainingInGroupInfo.GroupTraining.GroupTrainingId} " +
+                $"AND MaxAttenders > (SELECT COUNT(TrainingInGroupId) FROM TrainingInGroup WHERE GroupTrainingId = {TrainingInGroupInfo.GroupTraining.GroupTrainingId});";
+            var groupTrainings = Context.GroupTrainings.SqlQuery(query2).ToList();
+
+            var query3 = $"SELECT * FROM TrainingInGroup WHERE ClientId = {TrainingInGroupInfo.Client.ClientId} " +
+               $"AND GroupTrainingId = {TrainingInGroupInfo.GroupTraining.GroupTrainingId}";
+            var trainingInGroups = Context.TrainingInGroups.SqlQuery(query3).ToList();
+
+            return subscriptions.Count > 0 && groupTrainings.Count > 0 && trainingInGroups.Count < 1;
+        }
+
+        public void DecreaseTrainingCount()
+        {
+            var subsc = Context.Subscriptions.FirstOrDefault(s => s.Client.ClientId == TrainingInGroupInfo.Client.ClientId);
+            subsc.VisitLeft -= 1;
+            subsc.GroupTrainingLeft -= 1;
+            Context.SaveChanges();
+        }
     }
 }
