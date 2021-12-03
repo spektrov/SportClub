@@ -20,6 +20,7 @@ namespace SportClub.ViewModel
             Context.Subscriptions.Load();
             Context.Subscriptions.Include(t => t.Client);
             Context.Subscriptions.Include(t => t.Tariff);
+            Context.Tariffs.Load();
         }
 
         private RelayCommand _addSubscriptionCommand;

@@ -4,6 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using SportClub.SportClubDbContext;
 using SportClub.Model;
+using System.Linq;
 
 namespace SportClub.ViewModel
 {
@@ -19,6 +20,7 @@ namespace SportClub.ViewModel
             Context.PersonalTrainings.Load();
             Context.PersonalTrainings.Include(t => t.Client);
             Context.PersonalTrainings.Include(t => t.Trainer);
+            Context.Subscriptions.Load();
         }
 
         private RelayCommand _addPersonalTrainingCommand;
@@ -38,6 +40,8 @@ namespace SportClub.ViewModel
                         TrainingDate = PersonalTrainingInfo.TrainingDate,
                         StartTime = PersonalTrainingInfo.StartTime
                     });
+
+                    DecreaseTrainingCount();
                     Context.SaveChanges();
                 },
                 () =>
@@ -47,6 +51,10 @@ namespace SportClub.ViewModel
                         || Equals(PersonalTrainingInfo.TrainingDate, null)
                         || Equals(PersonalTrainingInfo.StartTime, null)
                         )
+                    {
+                        return false;
+                    }
+                    if (!OtherVerifies())
                     {
                         return false;
                     }
@@ -76,6 +84,10 @@ namespace SportClub.ViewModel
                     {
                         return false;
                     }
+                    if (!OtherVerifies())
+                    {
+                        return false;
+                    }
                     return true;
                 }));
 
@@ -100,5 +112,44 @@ namespace SportClub.ViewModel
                    PersonalTrainingInfo.StartTime = SelectedPersonalTraining.StartTime;
                },
                () => SelectedPersonalTraining != null));
+
+        public bool OtherVerifies()
+        {
+            var query1 = $"SELECT * FROM Subscriptions " +
+                $" WHERE ClientId = {PersonalTrainingInfo.Client.ClientId}" +
+                $" AND ValidityDate >= GETDATE()" +
+                $" AND VisitLeft > 0 " +
+                $"AND PersonalTrainingLeft > 0;";
+            var subscriptions = Context.Subscriptions.SqlQuery(query1).ToList();
+
+            var dayOfWeek = (int)PersonalTrainingInfo.TrainingDate.DayOfWeek == 7 ? 0 : (int)PersonalTrainingInfo.TrainingDate.DayOfWeek;
+            var query2 = $"SELECT * FROM Trainers WHERE TrainerId IN (" +
+                $"SELECT Schedule.TrainerId FROM Schedule, WorkShifts" +
+                $" WHERE Schedule.WorkShiftId = WorkShifts.WorkShiftId AND DayOfWeek = {dayOfWeek} " +
+                $"AND CAST(StartHour AS TIME) <= CAST('{PersonalTrainingInfo.StartTime}' AS TIME)" +
+                $" AND CAST(EndHour AS TIME) >= CAST('{PersonalTrainingInfo.StartTime.AddHours(1)}' AS TIME) ) " +
+                $"AND TrainerId = {PersonalTrainingInfo.Trainer.TrainerId}; ";
+            var trainers = Context.Trainers.SqlQuery(query2).ToList();
+
+            var query3 = $"SELECT * FROM PersonalTrainings" +
+                $" WHERE TrainerId =  {PersonalTrainingInfo.Trainer.TrainerId}" +
+                $" AND CAST(TrainingDate AS DATE) = CAST('2021-11-29' AS DATE)" +
+                $" AND ((CAST(StartTime AS TIME) > CAST('{PersonalTrainingInfo.StartTime}' AS TIME)" +
+                $"       AND CAST(StartTime AS TIME) < CAST('{PersonalTrainingInfo.StartTime.AddMinutes(59).AddSeconds(59)}' AS TIME)) " +
+                $"  OR ((CAST(DATEADD(HH, 1, StartTime) AS TIME) > CAST('{PersonalTrainingInfo.StartTime}' AS TIME)" +
+                $"       AND CAST(DATEADD(HH, 1, StartTime) AS TIME) <= CAST('{PersonalTrainingInfo.StartTime.AddHours(1)}' AS TIME))));";
+                
+            var personalTrainings = Context.PersonalTrainings.SqlQuery(query3).ToList();
+
+            return subscriptions.Count > 0 && trainers.Count > 0 && personalTrainings.Count < 1;
+        }
+
+        public void DecreaseTrainingCount()
+        {
+            var subsc = Context.Subscriptions.FirstOrDefault(s => s.Client.ClientId == PersonalTrainingInfo.Client.ClientId);
+            subsc.VisitLeft -= 1;
+            subsc.PersonalTrainingLeft -= 1;
+            Context.SaveChanges();
+        }
     }
 }

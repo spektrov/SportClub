@@ -6,6 +6,7 @@ using GalaSoft.MvvmLight.CommandWpf;
 using SportClub.SportClubDbContext;
 using SportClub.Model;
 using System.Data.SqlTypes;
+using System.Linq;
 
 namespace SportClub.ViewModel
 {
@@ -20,6 +21,7 @@ namespace SportClub.ViewModel
             Context = context;
             Context.Trainings.Load();
             Context.Trainings.Include(t => t.Client);
+            Context.Subscriptions.Load();
         }
 
         private RelayCommand _addTrainingCommand;
@@ -37,6 +39,8 @@ namespace SportClub.ViewModel
                         Client = TrainingInfo.Client,
                         TrainingDate = TrainingInfo.TrainingDate
                     });
+
+                    DecreaseTrainingCount();
                     Context.SaveChanges();
                 },
                 () =>
@@ -70,6 +74,10 @@ namespace SportClub.ViewModel
                     if (Equals(TrainingInfo.Client, null)
                         || Equals(TrainingInfo.TrainingDate, null)
                         )
+                    {
+                        return false;
+                    }
+                    if (!OtherVerifies())
                     {
                         return false;
                     }
@@ -107,6 +115,13 @@ namespace SportClub.ViewModel
             var subscriptions = Context.Subscriptions.SqlQuery(query1).ToListAsync();
 
             return subscriptions.Result.Count > 0;
+        }
+
+        public void DecreaseTrainingCount()
+        {
+            var subsc = Context.Subscriptions.FirstOrDefault(s => s.Client.ClientId == TrainingInfo.Client.ClientId);
+            subsc.VisitLeft -= 1;
+            Context.SaveChanges();
         }
     }
 }
