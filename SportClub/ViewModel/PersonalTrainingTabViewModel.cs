@@ -40,6 +40,11 @@ namespace SportClub.ViewModel
                         TrainingDate = PersonalTrainingInfo.TrainingDate,
                         StartTime = PersonalTrainingInfo.StartTime
                     });
+                    Context.Trainings.Add(new Training
+                    {
+                        Client = PersonalTrainingInfo.Client,
+                        TrainingDate = PersonalTrainingInfo.TrainingDate
+                    });
 
                     DecreaseTrainingCount();
                     Context.SaveChanges();
@@ -97,6 +102,11 @@ namespace SportClub.ViewModel
                () =>
                {
                    Context.PersonalTrainings.Remove(SelectedPersonalTraining);
+
+                   var training = Context.Trainings.FirstOrDefault(t => 
+                   t.Client.ClientId == PersonalTrainingInfo.Client.ClientId && t.TrainingDate == PersonalTrainingInfo.TrainingDate);
+                   Context.Trainings.Remove(training);
+
                    Context.SaveChanges();
                },
                () => SelectedPersonalTraining != null));
@@ -131,11 +141,12 @@ namespace SportClub.ViewModel
                 $"AND TrainerId = {PersonalTrainingInfo.Trainer.TrainerId}; ";
             var trainers = Context.Trainers.SqlQuery(query2).ToList();
 
+            var date = PersonalTrainingInfo.TrainingDate.Year + "-" + PersonalTrainingInfo.TrainingDate.Month + "-" + PersonalTrainingInfo.TrainingDate.Day;
             var query3 = $"SELECT * FROM PersonalTrainings" +
                 $" WHERE TrainerId =  {PersonalTrainingInfo.Trainer.TrainerId}" +
-                $" AND CAST(TrainingDate AS DATE) = CAST('2021-11-29' AS DATE)" +
+                $" AND CAST(TrainingDate AS DATE) = CAST('{date}' AS DATE)" +
                 $" AND ((CAST(StartTime AS TIME) > CAST('{PersonalTrainingInfo.StartTime}' AS TIME)" +
-                $"       AND CAST(StartTime AS TIME) < CAST('{PersonalTrainingInfo.StartTime.AddMinutes(59).AddSeconds(59)}' AS TIME)) " +
+                $"       AND CAST(StartTime AS TIME) <= CAST('{PersonalTrainingInfo.StartTime.AddMinutes(59).AddSeconds(59)}' AS TIME)) " +
                 $"  OR ((CAST(DATEADD(HH, 1, StartTime) AS TIME) > CAST('{PersonalTrainingInfo.StartTime}' AS TIME)" +
                 $"       AND CAST(DATEADD(HH, 1, StartTime) AS TIME) <= CAST('{PersonalTrainingInfo.StartTime.AddHours(1)}' AS TIME))));";
                 
