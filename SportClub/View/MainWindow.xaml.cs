@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
+﻿using System.Data.Entity;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
 using SportClub.SportClubDbContext;
 using SportClub.ViewModel;
-using SportClub.Model;
-using System.Linq;
+using SportClub.Miscellaneous;
 
 namespace SportClub.View
 {
@@ -25,6 +20,10 @@ namespace SportClub.View
             Database.SetInitializer(new DropCreateDatabaseIfModelChanges<SportClubContext>());
            
             Context = new SportClubContext();
+
+            var notificationEmail = new SubscriptionNotificationEmail(Context);
+            notificationEmail.SendAllNotifications(3);
+
           
             ClientsTab.DataContext = new ClientsTabViewModel(Context);
             TrainersTab.DataContext = new TrainersTabViewModel(Context);

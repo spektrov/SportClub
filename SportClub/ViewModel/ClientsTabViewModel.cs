@@ -167,7 +167,6 @@ namespace SportClub.ViewModel
                             && string.IsNullOrEmpty(tuple.Item6.Text)
                             && string.IsNullOrEmpty(tuple.Item7.Text)
                             )
-
                             return false;
                         return true;
                     }

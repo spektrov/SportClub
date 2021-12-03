@@ -5,12 +5,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
-        
         xmlns:toolkit="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:local="clr-namespace:SportClub.ViewModel"
         xmlns:misc="clr-namespace:SportClub.Miscellaneous"
         mc:Ignorable="d"
-        Title="MainWindow" Height="700" Width="1200">
+        Title="Администранор" Height="700" Width="1200">
     <Window.Resources>
         <misc:ResetFilterClientParametersConverter x:Key="ResetFilterClientConverter" />
         <misc:ResetFilterTrainersParametersConverter x:Key="ResetFilterTrainerConverter" />
@@ -1260,8 +1259,18 @@
                             </Expander>
 
                             <!-- < PersonalTraining Filter > -->
-                            <Expander Grid.Row="1"  Header="Фильтры" IsEnabled="False">
-
+                            <Expander Grid.Row="1"  Header="Фильтры" IsExpanded="True">
+                                <DataGrid Grid.Column="0" x:Name="SubscriptionClient1Grid" ItemsSource="{Binding PersonalTrainingInfo.Client.Subscriptions}" IsReadOnly="True">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Клиент" Binding="{Binding Client.ClientId}"/>
+                                        <DataGridTextColumn Header="Тариф" Binding="{Binding Tariff.TariffId}"/>
+                                        <DataGridTextColumn Header="Посещения" Binding="{Binding VisitLeft}" />
+                                        <DataGridTextColumn Header="Персональные" Binding="{Binding PersonalTrainingLeft}" />
+                                        <DataGridTextColumn Header="Групповые" Binding="{Binding GroupTrainingLeft}" />
+                                        <DataGridTextColumn Header="Покупка" Binding="{Binding BuyDate, StringFormat=\{0:dd MM yyyy\}}"/>
+                                        <DataGridTextColumn Header="Действен до" Binding="{Binding ValidityDate, StringFormat=\{0:dd MM yyyy\}}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
                             </Expander>
                         </Grid>
                     </Border>
@@ -1507,8 +1516,18 @@
                             </Expander>
 
                             <!-- < TrainingInGroup Filter > -->
-                            <Expander Grid.Row="1"  Header="" IsEnabled="False">
-
+                            <Expander Grid.Row="1"  Header="Абонемент" IsExpanded="True">
+                                <DataGrid Grid.Column="0" x:Name="SubscriptionClient2Grid" ItemsSource="{Binding TrainingInGroupInfo.Client.Subscriptions}" IsReadOnly="True">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Клиент" Binding="{Binding Client.ClientId}"/>
+                                        <DataGridTextColumn Header="Тариф" Binding="{Binding Tariff.TariffId}"/>
+                                        <DataGridTextColumn Header="Посещения" Binding="{Binding VisitLeft}" />
+                                        <DataGridTextColumn Header="Персональные" Binding="{Binding PersonalTrainingLeft}" />
+                                        <DataGridTextColumn Header="Групповые" Binding="{Binding GroupTrainingLeft}" />
+                                        <DataGridTextColumn Header="Покупка" Binding="{Binding BuyDate, StringFormat=\{0:dd MM yyyy\}}"/>
+                                        <DataGridTextColumn Header="Действен до" Binding="{Binding ValidityDate, StringFormat=\{0:dd MM yyyy\}}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
                             </Expander>
                         </Grid>
                     </Border>

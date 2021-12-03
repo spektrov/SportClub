@@ -156,6 +156,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Miscellaneous\ClientDocument.cs" />
     <Compile Include="Miscellaneous\EmailSender.cs" />
+    <Compile Include="Miscellaneous\SubscriptionNotificationEmail.cs" />
     <Compile Include="Model\Enums.cs" />
     <Compile Include="Miscellaneous\TrainerDocument.cs" />
     <Compile Include="Miscellaneous\XamlConverters.cs" />
