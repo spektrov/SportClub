@@ -8,6 +8,7 @@ namespace SportClub.Model
 {
     class Subscription : INotifyPropertyChanged
     {
+        private int _SubscriptionId;
         private int _clinetId;
         private int _tariffId;
         private int _visitLeft;
@@ -19,6 +20,17 @@ namespace SportClub.Model
 
         private Client _client;
         private Tariff _tariff;
+
+        public int SubscriptionId
+        {
+            get => _SubscriptionId;
+            set
+            {
+                if (value == _SubscriptionId) return;
+                _SubscriptionId = value;
+                OnPropertyChanged();
+            }
+        }
 
         public int ClientId
         {

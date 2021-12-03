@@ -25,12 +25,13 @@ namespace SportClub.Miscellaneous
             foreach (Client client in clientsList)
             {
                 var expiredDate = client.Subscriptions.FirstOrDefault(s => s.ClientId == client.ClientId).ValidityDate;
+                var gender = client.Gender == Genders.Мужской ? "Уважаемый" : "Уважаемая";
 
                 var emailSender = new EmailSender(client.Email, client.FirstName + " " + client.LastName, "Продлите сотрудничество с Харьков-Спорт",
                     $"<div><p style=\"font-size: 14pt;\">" +
-                    $"Уважаемый <b>{client.FirstName + " " + client.LastName}!</b> </p>" +
-                    $"<p style=\"font-size: 14pt;\">Срок действия Вашего абонимента истекает <b>{expiredDate.Day}.{expiredDate.Month}.{expiredDate.Year}</b></p>" +
-                    $"<p style=\"font-size: 14pt;\">Продлите абонимент, чтобы продолжить расти вместе с нами.</p>" +
+                    $"{gender} <b>{client.FirstName + " " + client.LastName}!</b> </p>" +
+                    $"<p style=\"font-size: 14pt;\">Срок действия Вашего абонемента истекает <b>{expiredDate.Day}.{expiredDate.Month}.{expiredDate.Year}</b></p>" +
+                    $"<p style=\"font-size: 14pt;\">Продлите абонемент, чтобы продолжить расти вместе с нами.</p>" +
                     $"<p>С уважением, администрация <i>Харьков-Спорт</i>.</p></div>");
 
                 await emailSender.SendEmail();

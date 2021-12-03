@@ -113,8 +113,8 @@ namespace SportClub.ViewModel
                 $" WHERE DayOfWeek = {(int)WorkShiftInfo.DayOfWeek} " +
                 $"AND WorkShiftId NOT IN (" +
                 $"SELECT WorkShiftId FROM WorkShifts WHERE" +
-                $" (StartHour >= CONVERT(datetime2, '1900-01-01 {WorkShiftInfo.EndHour.Hour}:{WorkShiftInfo.EndHour.Minute}:00')" +
-                $" OR EndHour <= CONVERT(datetime2, '1900-01-01 {WorkShiftInfo.StartHour.Hour}:{WorkShiftInfo.StartHour.Minute}:00'))) ";
+                $" CAST(StartHour AS TIME) >= CAST('{WorkShiftInfo.EndHour}' AS TIME)" +
+                $" OR CAST(EndHour AS TIME) <= CAST('{WorkShiftInfo.StartHour}' AS TIME)) ";
 
             var schedules = Context.WorkShifts.SqlQuery(query1).ToListAsync();
 
