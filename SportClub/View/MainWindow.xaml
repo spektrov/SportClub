@@ -1084,9 +1084,9 @@
                                         <Run Text="№ " />
                                         <Run Text="{Binding ScheduleInfo.WorkShift.DayOfWeek}" />
                                         <Run Text=" - " />
-                                        <Run Text="{Binding ScheduleInfo.WorkShift.StartHour}" />
+                                        <Run Text="{Binding ScheduleInfo.WorkShift.StartHour, StringFormat=\{0:HH mm\}}"/>
                                         <Run Text=" - " />
-                                        <Run Text="{Binding ScheduleInfo.WorkShift.EndHour}" />
+                                        <Run Text="{Binding ScheduleInfo.WorkShift.EndHour, StringFormat=\{0:HH mm\}}"/>
                                     </TextBlock>
 
                                     <local:FilteredComboBox Grid.Row="1" Grid.Column="1" ItemsSource="{Binding Context.Trainers.Local}"

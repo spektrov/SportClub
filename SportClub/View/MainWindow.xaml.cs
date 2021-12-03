@@ -3,6 +3,7 @@ using System.Windows;
 using SportClub.SportClubDbContext;
 using SportClub.ViewModel;
 using SportClub.Miscellaneous;
+using System.Threading.Tasks;
 
 namespace SportClub.View
 {
@@ -21,10 +22,6 @@ namespace SportClub.View
            
             Context = new SportClubContext();
 
-            var notificationEmail = new SubscriptionNotificationEmail(Context);
-            notificationEmail.SendAllNotifications(3);
-
-          
             ClientsTab.DataContext = new ClientsTabViewModel(Context);
             TrainersTab.DataContext = new TrainersTabViewModel(Context);
             TariffTab.DataContext = new TariffTabViewModel(Context);
@@ -37,6 +34,9 @@ namespace SportClub.View
             PersonalTrainingTab.DataContext = new PersonalTrainingTabViewModel(Context);
             GroupTrainingsTab.DataContext = new GroupTrainingTabViewModel(Context);
             TrainingInGroupTab.DataContext = new TrainingInGroupTabViewModel(Context);
+
+            var notificationEmail = new SubscriptionNotificationEmail(Context);
+            Task.Run(() => notificationEmail.SendAllNotifications(3)).Wait();
         }
 
         private void SQLquery_Click(object sender, RoutedEventArgs e)

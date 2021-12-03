@@ -50,6 +50,10 @@ namespace SportClub.ViewModel
                     {
                         return false;
                     }
+                    if (!OtherVerifies())
+                    {
+                        return false;
+                    }
                     return true;
                 }));
 
@@ -72,6 +76,10 @@ namespace SportClub.ViewModel
                         || Equals(WorkShiftInfo.EndHour, null)
                         || WorkShiftInfo.StartHour >= WorkShiftInfo.EndHour
                         )
+                   {
+                       return false;
+                   }
+                   if (!OtherVerifies())
                    {
                        return false;
                    }
@@ -98,5 +106,19 @@ namespace SportClub.ViewModel
                    WorkShiftInfo.EndHour = SelectedWorkShift.EndHour;
                },
                () => SelectedWorkShift != null));
+
+        public bool OtherVerifies()
+        {
+            var query1 = $"SELECT * FROM WorkShifts" +
+                $" WHERE DayOfWeek = {(int)WorkShiftInfo.DayOfWeek} " +
+                $"AND WorkShiftId NOT IN (" +
+                $"SELECT WorkShiftId FROM WorkShifts WHERE" +
+                $" (StartHour >= CONVERT(datetime2, '1900-01-01 {WorkShiftInfo.EndHour.Hour}:{WorkShiftInfo.EndHour.Minute}:00')" +
+                $" OR EndHour <= CONVERT(datetime2, '1900-01-01 {WorkShiftInfo.StartHour.Hour}:{WorkShiftInfo.StartHour.Minute}:00'))) ";
+
+            var schedules = Context.WorkShifts.SqlQuery(query1).ToListAsync();
+
+            return schedules.Result.Count < 1;
+        }
     }
 }
