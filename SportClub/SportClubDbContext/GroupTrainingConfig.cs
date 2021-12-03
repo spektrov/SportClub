@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data.Entity.ModelConfiguration;
+﻿using System.Data.Entity.ModelConfiguration;
 using SportClub.Model;
 
 namespace SportClub.SportClubDbContext
@@ -18,6 +13,7 @@ namespace SportClub.SportClubDbContext
             HasRequired(training => training.GroupTrainingType).WithMany(trainer => trainer.GroupTrainings).HasForeignKey(t => t.GroupTrainingTypeId);
             Property(training => training.Date).HasColumnType("datetime2").IsRequired();
             Property(training => training.StartTime).HasColumnType("datetime2").IsRequired();
+            Property(training => training.MaxAttenders).IsRequired();
 
             ToTable("GroupTraining");
         }

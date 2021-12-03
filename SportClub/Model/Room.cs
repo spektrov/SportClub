@@ -61,5 +61,10 @@ namespace SportClub.Model
         {
             _groupTrainings = new List<GroupTraining>();
         }
+
+        public override string ToString()
+        {
+            return RoomName.ToString();
+        }
     }
 }

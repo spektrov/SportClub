@@ -122,5 +122,10 @@ namespace SportClub.Model
         {
             _subscriptions = new List<Subscription>();
         }
+
+        public override string ToString()
+        {
+            return TariffId.ToString();
+        }
     }
 }

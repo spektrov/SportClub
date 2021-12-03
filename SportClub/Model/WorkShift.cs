@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using SportClub.Annotations;
@@ -12,7 +9,7 @@ namespace SportClub.Model
     class WorkShift : INotifyPropertyChanged
     {
         private int _workShiftId;
-        private DayOfWeek _dayOfWeek;
+        private DayOfWeekRussian _dayOfWeek;
         private DateTime _startHour;
         private DateTime _endHour;
         private IList<Schedule> _schedules;
@@ -28,7 +25,7 @@ namespace SportClub.Model
             }
         }
 
-        public DayOfWeek DayOfWeek
+        public DayOfWeekRussian DayOfWeek
         {
             get => _dayOfWeek;
             set
@@ -84,6 +81,11 @@ namespace SportClub.Model
         public WorkShift()
         {
             _schedules = new List<Schedule>();
+        }
+
+        public override string ToString()
+        {
+            return DayOfWeek.ToString() + " " + StartHour;
         }
     }
 }

@@ -20,6 +20,7 @@ namespace SportClub.Model
         private GroupTrainingType _groupTrainingType;
         private DateTime _date;
         private DateTime _startTime;
+        private int _maxAttenders;
 
         private IList<TrainingInGroup> _trainingInGroups;
 
@@ -122,6 +123,17 @@ namespace SportClub.Model
             }
         }
 
+        public int MaxAttenders
+        {
+            get => _maxAttenders;
+            set
+            {
+                if (value == _maxAttenders) return;
+                _maxAttenders = value;
+                OnPropertyChanged();
+            }
+        }
+
         public virtual IList<TrainingInGroup> TrainingInGroups
         {
             get => _trainingInGroups;
@@ -144,6 +156,12 @@ namespace SportClub.Model
         public GroupTraining()
         {
             _trainingInGroups = new List<TrainingInGroup>();
+        }
+
+        public override string ToString()
+        {
+            return Date.Day.ToString() + "." + Date.Month.ToString() + " "
+                + StartTime.Hour.ToString() + ":" + StartTime.Minute.ToString() + " " + GroupTrainingType.GroupTrainingTypeName;
         }
     }
 }

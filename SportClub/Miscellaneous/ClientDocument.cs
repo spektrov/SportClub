@@ -7,6 +7,9 @@ namespace SportClub.Miscellaneous
     {
         public DocumentModel GenerateClientDoc(int id, string surname, string name, DateTime registration)
         {
+            var day = registration.Day < 10 ? "0" + registration.Day.ToString() : registration.Day.ToString();
+            var month = (MonthNames)registration.Month;
+
             ComponentInfo.SetLicense("FREE-LIMITED-KEY");
 
             var document = new DocumentModel();
@@ -18,7 +21,7 @@ namespace SportClub.Miscellaneous
                         new SpecialCharacter(document, SpecialCharacterType.Tab),
                         new SpecialCharacter(document, SpecialCharacterType.Tab),
                         new SpecialCharacter(document, SpecialCharacterType.Tab),
-                        new Run(document, "От " + registration.Day + "." + registration.Month + "." + registration.Year) { CharacterFormat = { Size = 16, Bold = true } }),
+                        new Run(document, "От " + day + " " + month + " " + registration.Year) { CharacterFormat = { Size = 16, Bold = true } }),
 
                     new Paragraph(document, 
                         new Run(document, $"Фитнес клуб «Фитнесс-Харьков» ИП Спектров Д.Е.," +
