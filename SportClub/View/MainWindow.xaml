@@ -122,7 +122,7 @@
                                     <TextBlock Grid.Row="4" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[5].Header, StringFormat={}{0}:}"/>
                                     <TextBlock Grid.Row="5" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[6].Header, StringFormat={}{0}:}"/>
                                     <TextBlock Grid.Row="6" Grid.Column="0" Margin="5" Text="{Binding ElementName=ClientsGrid, Path=Columns[7].Header, StringFormat={}{0}:}"/>
-                                  
+
                                     <TextBox Grid.Row="0" Grid.Column="1" Margin="3" Text="{Binding ClientInfo.FirstName, Mode=TwoWay}"/>
                                     <TextBox Grid.Row="1" Grid.Column="1" Margin="3" Text="{Binding ClientInfo.LastName, Mode=TwoWay}"/>
                                     <DatePicker Grid.Row="2" Grid.Column="1" Margin="3" SelectedDate="{Binding ClientInfo.BirthDate, Mode=TwoWay}"/>
@@ -680,7 +680,7 @@
                                             </ItemsPanelTemplate>
                                         </local:FilteredComboBox.ItemsPanel>
                                     </local:FilteredComboBox>
-                                    
+
                                     <DatePicker Grid.Row="2" Grid.Column="3" Margin="3.2,3,2.6,3.6" DisplayDateStart="{x:Static local:DtHelper.ClientStartDate}" DisplayDateEnd="{x:Static sys:DateTime.Now}"
                                                 SelectedDate="{Binding TrainingInfo.TrainingDate, Mode=TwoWay}">
                                         <DatePicker.BlackoutDates>
@@ -705,7 +705,18 @@
                             </Expander>
 
                             <!-- < Training Filter > -->
-                            <Expander Grid.Row="1"  Header="Фильтры" IsEnabled="False">
+                            <Expander Grid.Row="1"  Header="Абонимент" IsExpanded="True">
+                                <DataGrid Grid.Column="0" x:Name="SubscriptionClientGrid" ItemsSource="{Binding TrainingInfo.Client.Subscriptions}" IsReadOnly="True">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Клиент" Binding="{Binding Client.ClientId}"/>
+                                        <DataGridTextColumn Header="Тариф" Binding="{Binding Tariff.TariffId}"/>
+                                        <DataGridTextColumn Header="Посещения" Binding="{Binding VisitLeft}" />
+                                        <DataGridTextColumn Header="Персональные" Binding="{Binding PersonalTrainingLeft}"/>
+                                        <DataGridTextColumn Header="Групповые" Binding="{Binding GroupTrainingLeft}" />
+                                        <DataGridTextColumn Header="Покупка" Binding="{Binding BuyDate, StringFormat=\{0:dd MM yyyy\}}"/>
+                                        <DataGridTextColumn Header="Действен до" Binding="{Binding ValidityDate, StringFormat=\{0:dd MM yyyy\}}"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
 
                             </Expander>
                         </Grid>
@@ -718,11 +729,12 @@
             <TabItem x:Name="SubscriptionTab" Header="Абонeменты" d:DataContext="{d:DesignInstance d:Type=local:SubscriptionsTabViewModel, IsDesignTimeCreatable=True}">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="4*"/>
+                        <ColumnDefinition Width="289*"/>
+                        <ColumnDefinition Width="219*"/>
+                        <ColumnDefinition Width="679*"/>
                     </Grid.ColumnDefinitions>
 
-                    <DataGrid Grid.Column="0" x:Name="SubscriptionGrid" ItemsSource="{Binding Context.Subscriptions.Local}" SelectedItem="{Binding SelectedSubscription, Mode=TwoWay}">
+                    <DataGrid Grid.Column="0" x:Name="SubscriptionGrid" ItemsSource="{Binding Context.Subscriptions.Local}" SelectedItem="{Binding SelectedSubscription, Mode=TwoWay}" Grid.ColumnSpan="3" Margin="0,0,679,-0.2">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Клиент" Binding="{Binding Client.ClientId}" IsReadOnly="True"/>
                             <DataGridTextColumn Header="Тариф" Binding="{Binding Tariff.TariffId}" IsReadOnly="True"/>
@@ -739,7 +751,7 @@
                         </i:Interaction.Triggers>
                     </DataGrid>
 
-                    <Border Grid.Column="1" BorderThickness="1" Margin="50" CornerRadius="10" BorderBrush="LightBlue">
+                    <Border Grid.Column="2" BorderThickness="1" Margin="50.2,50,50,49.8" CornerRadius="10" BorderBrush="LightBlue">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -992,7 +1004,7 @@
                                     <TextBlock Grid.Row="0" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=WorkShiftGrid, Path=Columns[1].Header, StringFormat={}{0}:}"/>
                                     <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,4.8,4.6" Text="{Binding ElementName=WorkShiftGrid, Path=Columns[2].Header, StringFormat={}{0}:}"/>
                                     <TextBlock Grid.Row="2" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=WorkShiftGrid, Path=Columns[3].Header, StringFormat={}{0}:}"/>
-                                    
+
                                     <ComboBox Grid.Row="0" Grid.Column="1" ItemsSource="{Binding DayOfWeekRussians}" SelectedItem="{Binding WorkShiftInfo.DayOfWeek}" />
                                     <toolkit:TimePicker Grid.Row="1" Grid.Column="1" Value="{Binding WorkShiftInfo.StartHour}" Text="{Binding WorkShiftInfo.StartHour, Mode=TwoWay}" />
                                     <toolkit:TimePicker Grid.Row="2" Grid.Column="1" Value="{Binding WorkShiftInfo.EndHour}" Text="{Binding WorkShiftInfo.EndHour, Mode=TwoWay}" />
@@ -1062,7 +1074,7 @@
 
                                     <TextBlock Grid.Row="1" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=ScheduleGrid, Path=Columns[0].Header, StringFormat={}{0}:}" />
                                     <TextBlock Grid.Row="3" Grid.Column="0" Margin="5,5,4.8,5" Text="{Binding ElementName=ScheduleGrid, Path=Columns[1].Header, StringFormat={}{0}:}" />
-                       
+
                                     <TextBlock Grid.Row="0" Grid.Column="1" Margin="5,5,4.8,5" >
                                         <Run Text="№ " />
                                         <Run Text="{Binding ScheduleInfo.Trainer.TrainerId}" />
@@ -1120,7 +1132,7 @@
 
                             <!-- < Schedule Filter > -->
                             <Expander Grid.Row="1"  Header="" IsEnabled="False">
-                               
+
                             </Expander>
                         </Grid>
                     </Border>
@@ -1210,7 +1222,7 @@
                                             </ItemsPanelTemplate>
                                         </local:FilteredComboBox.ItemsPanel>
                                     </local:FilteredComboBox>
-                                    
+
                                     <local:FilteredComboBox Grid.Row="3" Grid.Column="1" ItemsSource="{Binding Context.Trainers.Local}"
                                             SelectedItem="{Binding PersonalTrainingInfo.Trainer}"
                                             IsEditable="True"
@@ -1369,7 +1381,7 @@
                                     </DatePicker>
                                     <toolkit:TimePicker Grid.Row="5" Grid.Column="1" Value="{Binding GroupTrainingInfo.StartTime}" Text="{Binding GroupTrainingInfo.StartTime, Mode=TwoWay}" />
                                     <TextBox Grid.Row="6" Grid.Column="1" Margin="3" Text="{Binding GroupTrainingInfo.MaxAttenders, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                    
+
                                     <Grid Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Margin="10,9.4,-10.4,10.4" Width="{Binding RelativeSource={RelativeSource AncestorType=Grid, Mode=FindAncestor}, Path=ActualWidth}">
                                         <Grid.RowDefinitions>
                                             <RowDefinition Height="2*"/>
@@ -1496,7 +1508,7 @@
 
                             <!-- < TrainingInGroup Filter > -->
                             <Expander Grid.Row="1"  Header="" IsEnabled="False">
-                                
+
                             </Expander>
                         </Grid>
                     </Border>

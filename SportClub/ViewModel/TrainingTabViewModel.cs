@@ -1,9 +1,11 @@
-﻿using System.Data.Entity;
+﻿using System;
+using System.Data.Entity;
 using System.Windows.Input;
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using SportClub.SportClubDbContext;
 using SportClub.Model;
+using System.Data.SqlTypes;
 
 namespace SportClub.ViewModel
 {
@@ -42,6 +44,10 @@ namespace SportClub.ViewModel
                     if (Equals(TrainingInfo.Client, null)
                         || Equals(TrainingInfo.TrainingDate, null)
                         )
+                    {
+                        return false;
+                    }
+                    if (!OtherVerifies())
                     {
                         return false;
                     }
@@ -89,5 +95,18 @@ namespace SportClub.ViewModel
                    TrainingInfo.TrainingDate = SelectedTraining.TrainingDate;
                },
                () => SelectedTraining != null));
+
+
+        public bool OtherVerifies()
+        {
+            var query1 = $"SELECT * FROM Subscriptions " +
+                $" WHERE ClientId = {TrainingInfo.Client.ClientId}" +
+                $" AND ValidityDate > GETDATE()" +
+                $" AND VisitLeft > 0";
+
+            var subscriptions = Context.Subscriptions.SqlQuery(query1).ToListAsync();
+
+            return subscriptions.Result.Count > 0;
+        }
     }
 }
