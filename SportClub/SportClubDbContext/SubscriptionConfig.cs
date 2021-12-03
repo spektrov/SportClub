@@ -21,6 +21,7 @@ namespace SportClub.SportClubDbContext
             Property(subscription => subscription.GroupTrainingLeft).IsRequired();
             Property(subscription => subscription.BuyDate).HasColumnType("datetime2").IsRequired();
             Property(subscription => subscription.ValidityDate).HasColumnType("datetime2").IsRequired();
+            Property(subscription => subscription.IsNotified).IsRequired();
 
             ToTable("Subscriptions");
         }

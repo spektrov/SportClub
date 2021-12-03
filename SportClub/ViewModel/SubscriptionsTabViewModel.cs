@@ -4,7 +4,7 @@ using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.CommandWpf;
 using SportClub.SportClubDbContext;
 using SportClub.Model;
-
+using System.Collections.Generic;
 
 namespace SportClub.ViewModel
 {
@@ -40,7 +40,8 @@ namespace SportClub.ViewModel
                         PersonalTrainingLeft = SubscriptionInfo.Tariff.PersonalTraining,
                         GroupTrainingLeft = SubscriptionInfo.Tariff.GroupTraining,
                         BuyDate = SubscriptionInfo.BuyDate,
-                        ValidityDate = SubscriptionInfo.BuyDate.AddDays(SubscriptionInfo.Tariff.Duration)
+                        ValidityDate = SubscriptionInfo.BuyDate.AddDays(SubscriptionInfo.Tariff.Duration),
+                        IsNotified = false
                     });
                     Context.SaveChanges();
                 },
@@ -53,6 +54,11 @@ namespace SportClub.ViewModel
                     {
                         return false;
                     }
+                    if (!OtherVerifies())
+                    {
+                        return false;
+                    }
+
                     return true;
                 }));
 
@@ -68,6 +74,7 @@ namespace SportClub.ViewModel
                     SelectedSubscription.GroupTrainingLeft = SubscriptionInfo.Tariff.GroupTraining;
                     SelectedSubscription.BuyDate = SubscriptionInfo.BuyDate;
                     SelectedSubscription.ValidityDate = SubscriptionInfo.BuyDate.AddDays(SubscriptionInfo.Tariff.Duration);
+                    SelectedSubscription.IsNotified = false;
 
                     Context.SaveChanges();
                 },
@@ -81,6 +88,11 @@ namespace SportClub.ViewModel
                     {
                         return false;
                     }
+                    if (!OtherVerifies() && (SelectedSubscription?.ClientId != SubscriptionInfo.Client.ClientId))
+                    {
+                        return false;
+                    }
+
                     return true;
                 }));
 
@@ -105,5 +117,14 @@ namespace SportClub.ViewModel
                },
                () => SelectedSubscription != null));
 
+
+        public bool OtherVerifies()
+        {
+            var query1 = $"SELECT * FROM Subscriptions WHERE ClientId = {SubscriptionInfo.Client.ClientId}";
+
+            var subscriptions = Context.Subscriptions.SqlQuery(query1).ToListAsync();
+
+            return subscriptions.Result.Count < 1;
+        }
     } 
 }

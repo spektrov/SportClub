@@ -15,6 +15,7 @@ namespace SportClub.Model
         private int _groupTrainingLeft;
         private DateTime _buyDate;
         private DateTime _validityDate;
+        private bool _isNotified;
 
         private Client _client;
         private Tariff _tariff;
@@ -118,6 +119,16 @@ namespace SportClub.Model
             }
         }
 
+        public bool IsNotified
+        {
+            get => _isNotified;
+            set
+            {
+                if (value == _isNotified) return;
+                _isNotified = value;
+                OnPropertyChanged();
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
